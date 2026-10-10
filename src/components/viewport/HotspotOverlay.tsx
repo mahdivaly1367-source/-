@@ -62,7 +62,7 @@ export function HotspotOverlay({
               left: Math.min(...hotspot.polygon.map((p) => p[0])) + "%",
               top: Math.min(...hotspot.polygon.map((p) => p[1])) + "%",
               width: (Math.max(...hotspot.polygon.map((p) => p[0])) - Math.min(...hotspot.polygon.map((p) => p[0]))) + "%",
-              height: (Math.max(...hotspot.polygon.map((p) => p[1]) - Math.min(...hotspot.polygon.map((p) => p[1]))) + "%",
+              height: (Math.max(...hotspot.polygon.map((p) => p[1])) - Math.min(...hotspot.polygon.map((p) => p[1]))) + "%",
             }}
           >
             <button

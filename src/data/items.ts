@@ -1,4 +1,4 @@
-import { FileText, AudioLines, Zap } from "lucide-react";
+import { AudioLines, Zap } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 export interface InventoryItem {
