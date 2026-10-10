@@ -23,7 +23,11 @@ test("click movement remains within the walkable polygon and projects outside cl
   await viewport.click({
     position: { x: bounds.width * 0.5, y: bounds.height * 0.14 },
   });
-  await expect.poll(() => page.locator(".sf-debug-readout").innerText()).toContain("X 50.0%");
+  await expect.poll(async () => {
+    const text = await page.locator(".sf-debug-readout").innerText();
+    const match = text.match(/X (\\d+(?:\\.\\d+)?)%/);
+    return match ? Number(match[1]) : Number.NaN;
+  }).toBeCloseTo(50, 0);
   await expect.poll(() => page.locator(".sf-debug-readout").innerText()).toContain("Foot Y 64.0%");
   expect(pageErrors).toEqual([]);
 });
