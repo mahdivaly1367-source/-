@@ -700,3 +700,21 @@
 .sf-dialogue__reply{margin-top:16px;padding:13px 14px;border-right:2px solid rgba(122,182,137,.6);background:rgba(88,139,95,.07)}
 .sf-dialogue__reply span{color:#c0d5b7;font-size:10px}.sf-dialogue__reply p{margin-top:7px;color:#d3d4c8;font-size:11px;line-height:2}
 @media(max-width:620px){.sf-audio-desk{padding:16px 13px 14px}.sf-audio-desk__heading h2{font-size:17px}.sf-audio-status-grid{gap:5px}.sf-audio-status-card{padding:8px 7px}.sf-audio-status-card strong{font-size:9px}.sf-audio-filter-grid{grid-template-columns:1fr}.sf-audio-success{gap:7px;padding:10px}.sf-dialogue h2{font-size:18px}.sf-dialogue__recording p{font-size:12px}}
+
+/* Phase 4 narrative interactions */
+.sf-phase4-actions{display:flex;flex-direction:column;align-items:flex-start;gap:10px;margin:16px 0}
+.sf-phase4-actions p,.sf-phase4-note{color:#b8b8aa;font-size:11px;line-height:1.9}
+.sf-phase4-note{padding:11px 13px;border-right:2px solid rgba(203,160,90,.55);background:rgba(181,132,56,.07);margin:10px 0}
+.sf-hatch-puzzle{display:flex;flex-direction:column;gap:12px;margin:15px 0}
+.sf-hatch-puzzle>p{color:#c4c1b2;font-size:11px;line-height:1.9}
+.sf-hatch-code{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;background:rgba(0,0,0,.18);border:1px solid rgba(202,174,118,.22);border-radius:5px}
+.sf-hatch-code span{font-size:11px;color:#d9c79e}
+.sf-hatch-code input{width:110px;min-height:40px;text-align:center;letter-spacing:.35em;font:600 18px ui-monospace,Consolas,monospace;color:#f0e4c5;background:#111915;border:1px solid rgba(205,175,116,.35);border-radius:4px}
+.sf-hatch-code input:disabled{opacity:.35}
+.sf-ending{width:min(620px,94vw);border-color:rgba(217,190,132,.4);background:linear-gradient(145deg,#1f2924,#101714)}
+.sf-ending h2{margin:20px 0 15px;font-size:25px;color:#f0ddad;line-height:1.7}
+.sf-ending>p{color:#c4c5b8;font-size:12px;line-height:2.1}
+.sf-ending__credits{display:flex;flex-direction:column;align-items:center;gap:5px;padding:22px 12px 5px;margin-top:15px;border-top:1px solid rgba(215,197,160,.2);text-align:center}
+.sf-ending__credits strong{font-size:18px;letter-spacing:.1em;color:#e5c78b}
+.sf-ending__credits span{font-size:11px;color:#b3b7a8}
+.sf-ending__credits small{margin-top:6px;font-size:9px;line-height:1.8;color:#808c80}

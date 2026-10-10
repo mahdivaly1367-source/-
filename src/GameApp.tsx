@@ -307,6 +307,18 @@ export default function GameApp() {
   }, []);
 
   const depthScale = scaleFromDepth(player[1], currentScene.perspective);
+  const bahmanEvidenceReady =
+    discoveredClueIds.includes("tampered-fuse-marks") &&
+    discoveredClueIds.includes("shift-log-correction") &&
+    discoveredClueIds.includes("bahman-tool-marks");
+  const hatchEvidenceReady =
+    discoveredClueIds.includes("opening-photo-1359") &&
+    discoveredClueIds.includes("frequency-note-1359");
+  const activeCollectibleItemIds = activeHotspot ? Array.from(new Set([
+    ...(activeHotspot.collectibleItemIds ?? []),
+    ...(activeHotspot.action === "transmitter-panel" && transmitterPanelOpened ? ["fuse-tamper-evidence"] : []),
+    ...(activeHotspot.action === "floor-hatch" && hatchOpened ? ["master-tape-13", "sohrab-letter"] : []),
+  ])) : [];
 
   return (
     <main className="sf-app">
@@ -459,8 +471,77 @@ export default function GameApp() {
             </div>
             <h2 id="sf-inspection-title">{activeHotspot.title}</h2>
             <p>{activeHotspot.description}</p>
-            {activeHotspot.kind === "transition" && (
-              <div className="sf-inspection__note"><Info size={17} /><span>تعویض کامل صحنه‌ها در فاز بعد به موتور داده‌محور متصل می‌شود؛ اینجا مسیر برای آزمون تعامل و جهت‌گیری آماده است.</span></div>
+            {activeHotspot.kind === "transition" && activeHotspot.targetSceneId && (
+              <div className="sf-inspection__note"><Info size={17} /><span>مسیر به «{SCENES[activeHotspot.targetSceneId].title}» متصل است. {activeHotspot.lockedMessage ?? ""}</span></div>
+            )}
+            {activeHotspot.action === "station-door" && !stationDoorUnlocked && (
+              <div className="sf-phase4-note">زنجیر هنوز بسته است. سیم‌چین عایق‌دار را از اینونتوری انتخاب کن و روی در بینداز؛ مسیر ساحل در هر حال باز می‌ماند.</div>
+            )}
+            {activeHotspot.action === "transmitter-panel" && (
+              <div className="sf-phase4-actions">
+                {!transmitterPanelOpened ? <p>قاب پیچ‌شده است. آچار فرانسه را از اینونتوری انتخاب کن و روی تابلو استفاده کن.</p> : (
+                  <div><p>قاب باز شده است. فیوز را بردار و در دفترچه ثبت کن؛ رشته سالم است و پایه اثر کشیدگی ابزار دارد.</p>
+                    {!inventoryIds.includes("fuse-tamper-evidence") && <button type="button" className="sf-secondary-button" onClick={() => collectItem("fuse-tamper-evidence")}><Zap size={15}/> برداشتن فیوز به‌عنوان مدرک</button>}
+                  </div>
+                )}
+              </div>
+            )}
+            {activeHotspot.action === "bahman-confession" && (
+              <div className="sf-phase4-actions">
+                <p>{bahmanConfessed ? "بهمن گفته است که به دستور مافوق، فیوز فرستنده را پایین کشیده بود. گفته‌اش را با نسخهٔ مستر و اسناد مستقل تطبیق بده." : bahmanEvidenceReady ? "سه قرینه آماده است: اثر ابزار روی فیوز، برگهٔ اصلاح‌شده و شباهت اولیهٔ انبردست. می‌توانی از بهمن توضیح بخواهی." : "بهمن به‌راحتی دربارهٔ شب حادثه حرف نمی‌زند. برای گفت‌وگوی مستند، فیوز را با آچار باز کن، برگهٔ کشیک را بردار و انبردست روی میز را بررسی کن."}</p>
+                {!bahmanConfessed && <button type="button" className="sf-primary-button" onClick={() => {
+                  if (!bahmanEvidenceReady) { setStatus("هنوز هر سه قرینه لازم نیستند؛ فیوز، برگهٔ کشیک و انبردست را جداگانه بررسی کن."); return; }
+                  setBahmanConfessed(true);
+                  collectItem("lighthouse-key");
+                  recordClue("bahman-confession");
+                  setStatus("بهمن اعتراف کرد و کلید فانوس را به آوا سپرد؛ اظهارات او باید با شواهد مستقل تطبیق داده شود.");
+                }}>ارائهٔ شواهد و گفت‌وگو با بهمن</button>}
+              </div>
+            )}
+            {activeHotspot.action === "khosro-meeting" && (
+              <div className="sf-phase4-actions">
+                <p>{khosroMet ? "خسرو گفت سهراب از غرق‌شدن نجات یافت، سال‌ها دور از بندر زندگی کرد و نسخهٔ مستر را برای روزی مناسب پنهان گذاشت. نامهٔ داخل محفظه باید این روایت را تکمیل کند." : "خسرو پس از دیدن یادداشت‌های آوا، سرنوشت سهراب را شرح می‌دهد و دیاپازون نقره‌ای او را به آوا می‌سپارد."}</p>
+                {!khosroMet && <button type="button" className="sf-primary-button" onClick={() => {
+                  setKhosroMet(true);
+                  collectItem("tuning-fork-440");
+                  recordClue("khosro-fate");
+                  setStatus("خسرو دیاپازون ۴۴۰ هرتز را سپرد و سرنخ سرنوشت سهراب در دفترچه ثبت شد.");
+                }}>گفت‌وگو با خسرو و دریافت دیاپازون</button>}
+              </div>
+            )}
+            {activeHotspot.action === "floor-hatch" && (
+              <div className="sf-hatch-puzzle">
+                {hatchOpened ? (
+                  <div className="sf-audio-success"><Check size={16}/><div><strong>محفظه باز شده است</strong><p>نوار مستر و نامهٔ سهراب را از محفظه بردار؛ پس از آن برای رویارویی نهایی به محوطهٔ بیرونی برگرد.</p></div></div>
+                ) : (
+                  <>
+                    <p>{!forkResonating ? "شیار باریکی روی دریچه دیده می‌شود. دیاپازون ۴۴۰ هرتز باید مرتعش باشد و ظرف ده ثانیه در شیار قرار گیرد." : "دیاپازون هنوز در حال ارتعاش است. دو مدرک عددی را از دفترچه مرور کن و رمز چهاررقمی را وارد کن."}</p>
+                    {!hatchEvidenceReady && <div className="sf-phase4-note">برای کشف رمز، ابتدا عکس افتتاحیه و یادداشت فنی پشت رادیوی خانهٔ راد را هر دو بررسی کن.</div>}
+                    <label className="sf-hatch-code"><span>رمز چهاررقمی</span><input aria-label="رمز دریچه" inputMode="numeric" maxLength={4} value={hatchCode} disabled={!forkResonating || !hatchEvidenceReady} onChange={(event) => setHatchCode(event.target.value.replace(/\D/g, "").slice(0,4))} placeholder="· · · ·"/></label>
+                    <button type="button" className="sf-primary-button" disabled={!forkResonating || !hatchEvidenceReady || hatchCode.length !== 4} onClick={() => {
+                      if (hatchCode !== "1359") { setStatus("قفل عددی باز نشد؛ عکس افتتاحیه و یادداشت فنی را دوباره تطبیق بده."); return; }
+                      setHatchOpened(true);
+                      setForkResonating(false);
+                      recordClue("master-tape-recovered");
+                      recordClue("sohrab-letter");
+                      collectItem("master-tape-13");
+                      collectItem("sohrab-letter");
+                      setStatus("دریچه با هر دو شرط باز شد؛ نوار مستر و نامهٔ سهراب در محفظه‌اند.");
+                    }}>باز کردن دریچه</button>
+                  </>
+                )}
+              </div>
+            )}
+            {activeHotspot.action === "final-confrontation" && (
+              <div className="sf-phase4-actions">
+                <p>{gameEnded ? "مدرک به مرجع مستقل سپرده شده و نوار مستر محفوظ مانده است." : inventoryIds.includes("master-tape-13") ? "نوار مستر و نامهٔ سهراب آماده‌اند. آوا می‌تواند آن‌ها را به مرجع مستقل بسپارد و با دانشیار روبه‌رو شود." : "برای رویارویی نهایی، ابتدا نسخهٔ مستر نوار ۱۳ را از محفظهٔ زیر کف استودیو پیدا کن."}</p>
+                {!gameEnded && <button type="button" className="sf-primary-button" disabled={!inventoryIds.includes("master-tape-13")} onClick={() => {
+                  setGameEnded(true);
+                  recordClue("master-tape-recovered");
+                  setActiveHotspot(null);
+                  setStatus("پایان روایت: مدارک برای بررسی مستقل تحویل شده‌اند.");
+                }}>تحویل شواهد و پایان پرونده</button>}
+              </div>
             )}
             {activeHotspot.id === "tape-deck" && <div className="sf-phase3-actions">
               <button type="button" className="sf-secondary-button" onClick={() => { recordClue("transformer-110v"); setStatus("یادداشت ولتاژ ترانس در دفترچه ثبت شد."); }}><BookOpen size={15}/> بررسی دفترچه تعمیرات</button>
@@ -468,7 +549,7 @@ export default function GameApp() {
             </div>}
             <div className="sf-inspection__bottom">
               <span className="sf-inspection__location"><Check size={15} /> آوا به نقطهٔ تعامل رسیده است</span>
-              {activeHotspot.collectibleItemIds?.filter((itemId) => !inventoryIds.includes(itemId)).map((itemId) => {
+              {activeCollectibleItemIds.filter((itemId) => !inventoryIds.includes(itemId)).map((itemId) => {
                 const item = ITEMS[itemId];
                 const ItemIcon = item.icon;
                 return (
@@ -520,6 +601,17 @@ export default function GameApp() {
         />
       )}
 
+      {gameEnded && (
+        <div className="sf-dialog-scrim">
+          <section className="sf-inspection sf-ending" role="dialog" aria-modal="true" aria-labelledby="sf-ending-title">
+            <div className="sf-inspection__kicker"><RadioTower size={15}/> پایان پروندهٔ نوار سیزدهم</div>
+            <h2 id="sf-ending-title">حقیقت در برابر امواج گم نشد</h2>
+            <p>آوا نسخهٔ مستر و نامهٔ پدرش را به مرجع مستقل سپرد. کنار هم قرار گرفتن شواهد فنی، ثبت‌های اداری و روایت شاهدان، بررسی دوبارهٔ پروندهٔ غرق‌شدن ققنوس و اتهام قدیمی علیه سهراب راد را ممکن کرد.</p>
+            <p>اعادهٔ حیثیت، یک حکم آنی نیست؛ این بار پرونده با مدارک قابل بررسی گشوده شده است. نام سهراب از سکوت بیرون آمده و آوا توانسته روایت پدر را از شایعه جدا کند.</p>
+            <div className="sf-ending__credits"><strong>فرکانس خاموش</strong><span>پروندهٔ نوار سیزدهم</span><small>پایان برش روایی · نسخهٔ صوتی و هنری نهایی در فازهای بعد تکمیل می‌شوند.</small></div>
+          </section>
+        </div>
+      )}
       <div className="sf-sr-only" aria-live="polite">{status}</div>
     </main>
   );
