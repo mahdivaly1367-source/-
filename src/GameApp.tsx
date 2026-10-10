@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import type { MouseEvent } from "react";
 import {
   BookOpen,
   Check,
@@ -98,7 +99,7 @@ export default function GameApp() {
     });
   }, [moveTo]);
 
-  const handleViewportClick = (event: React.MouseEvent<HTMLElement>) => {
+  const handleViewportClick = (event: MouseEvent<HTMLElement>) => {
     if (activeHotspot || !viewportRef.current) return;
     const rect = viewportRef.current.getBoundingClientRect();
     const x = ((event.clientX - rect.left) / rect.width) * 100;
