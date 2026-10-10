@@ -12,13 +12,17 @@ test("capture the rendered studio and verify the character sprite foot origin", 
     background.evaluate((image) => (image as HTMLImageElement).naturalWidth),
   ).toBeGreaterThan(0);
 
+  await mkdir("artifacts", { recursive: true });
+  await page.screenshot({ path: "artifacts/phase1-studio-full.png", fullPage: true });
+  await page.locator(".sf-viewport").screenshot({ path: "artifacts/phase1-studio-viewport.png" });
+
   const sprite = page.locator(".sf-ava-art");
   const origin = await sprite.evaluate((element) => {
     const style = getComputedStyle(element);
     const parts = style.transformOrigin.split(" ").map((value) => Number.parseFloat(value));
     return {
-      width: (element as HTMLElement).offsetWidth,
-      height: (element as HTMLElement).offsetHeight,
+      width: Number.parseFloat(style.width),
+      height: Number.parseFloat(style.height),
       originX: parts[0],
       originY: parts[1],
     };
@@ -26,25 +30,21 @@ test("capture the rendered studio and verify the character sprite foot origin", 
 
   expect(origin.width).toBeGreaterThan(0);
   expect(origin.height).toBeGreaterThan(0);
-  expect(Math.abs(origin.originX - origin.width / 2)).toBeLessThanOrEqual(1);
-  expect(Math.abs(origin.originY - origin.height)).toBeLessThanOrEqual(1);
+  expect(Math.abs(origin.originX - origin.width / 2)).toBeLessThanOrEqual(0.25);
+  expect(Math.abs(origin.originY - origin.height)).toBeLessThanOrEqual(0.25);
 
   const footAnchor = await page.locator(".sf-character").evaluate((element) => {
     const style = getComputedStyle(element);
     const matrix = new DOMMatrixReadOnly(style.transform);
     return {
-      width: element.offsetWidth,
-      height: element.offsetHeight,
+      width: Number.parseFloat(style.width),
+      height: Number.parseFloat(style.height),
       translateX: matrix.m41,
       translateY: matrix.m42,
     };
   });
-  expect(Math.abs(footAnchor.translateX + footAnchor.width * 0.5)).toBeLessThanOrEqual(1);
-  expect(Math.abs(footAnchor.translateY + footAnchor.height * 0.96)).toBeLessThanOrEqual(1);
-
-  await mkdir("artifacts", { recursive: true });
-  await page.screenshot({ path: "artifacts/phase1-studio-full.png", fullPage: true });
-  await page.locator(".sf-viewport").screenshot({ path: "artifacts/phase1-studio-viewport.png" });
+  expect(Math.abs(footAnchor.translateX + footAnchor.width * 0.5)).toBeLessThanOrEqual(0.25);
+  expect(Math.abs(footAnchor.translateY + footAnchor.height * 0.96)).toBeLessThanOrEqual(0.25);
 });
 
 test("click movement remains within the walkable polygon and projects outside clicks", async ({ page }) => {
