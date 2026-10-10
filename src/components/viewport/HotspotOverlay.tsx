@@ -1,4 +1,5 @@
 import type { CSSProperties, FocusEvent, MouseEvent } from "react";
+import { ArrowUpRight, Eye } from "lucide-react";
 import type { SceneHotspot } from "../../data/scenes/studio";
 
 interface HotspotOverlayProps {
@@ -95,7 +96,9 @@ export function HotspotOverlay({
               }}
             />
             <span className="sf-hotspot-label" aria-hidden="true" data-visible={isHovered ? "true" : "false"}>
-              <span className="sf-hotspot-label__dot" />
+              <span className="sf-hotspot-label__icon" aria-hidden="true">
+                {hotspot.kind === "transition" ? <ArrowUpRight size={13} /> : <Eye size={13} />}
+              </span>
               {hotspot.label}
             </span>
           </div>
