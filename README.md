@@ -1,11 +1,55 @@
-<div align="center">
+# فرکانس خاموش: پروندهٔ نوار سیزدهم
+### (Silent Frequency: Case of Tape 13)
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+یک بازی ماجراجویی داستان‌محور اشاره و کلیک (Point & Click Adventure) به زبان فارسی، با فضاسازی سینمایی، واقع‌گرایانه و معماهای مبتنی بر شواهد صوتی و اسناد آرشیوی.
 
-  <h1>Built with AI Studio</h2>
+---
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+## ۱. معرفی اجمالی پروژه
+- **عنوان بازی:** فرکانس خاموش: پروندهٔ نوار سیزدهم
+- **ژانر:** ماجراجویی اشاره و کلیک / معمایی کارآگاهی / درام رازآلود (Narrative Mystery / Audio Investigation Point & Click)
+- **شخصیت اصلی:** آوا راد، مرمت‌گر نوارهای صوتی مغناطیسی
+- **فضای داستان:** شهری ساحلی در حاشیه دریای مازندران (بندر کهن مه‌آب)؛ پاییز بارانی، یک ایستگاه رادیویی مخابرات دریایی رو به تخریب.
+- **موتور و فناوری:** React 19 + TypeScript + Tailwind CSS v4 + Motion (Vite Runtime). معماری بر پایه داده و ماشین وضعیت (State Machine) صریح.
+- **رویکرد مهندسی:** توسعه مبتنی بر مشخصات (Spec-Driven Development - SDD).
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+---
 
-</div>
+## ۲. وضعیت فعلی پروژه
+- **مرحله کنونی:** مرحله صفر (Phase 0: Specifications, Architecture & Design Bible Complete)
+- **وضعیت کد:** محیط اولیه بررسی و مستندسازی شده، فایل‌های متا و ساختار پروژه آماده‌سازی شده است. هیچ کُد بازی یا منطق نارسایی بدون مشخصات نوشته نشده است.
+- **اسناد تهیه شده:** کلیه اسناد طراحی بازی، داستان، معماها، هویت بصری، مشخصات فنی و سناریوهای آزمون در دایرکتوری `docs/` مستقر هستند.
+
+---
+
+## ۳. ساختار مستندات معماری و طراحی (`docs/`)
+1. [`docs/GDD.md`](./docs/GDD.md) — سند طراحی بازی (Game Design Document)، حلقه‌های بازی و مکانیک‌ها.
+2. [`docs/STORY_BIBLE.md`](./docs/STORY_BIBLE.md) — کتاب مقدس داستان، حقیقت ماجرا، خط زمانی، شخصیت‌ها و پرده‌ها.
+3. [`docs/PUZZLE_DESIGN.md`](./docs/PUZZLE_DESIGN.md) — طراحی تفصیلی معماها، سرنخ‌ها، راهنماهای مرحله‌ای و منطق استنتاج.
+4. [`docs/VISUAL_BIBLE.md`](./docs/VISUAL_BIBLE.md) — دستورالعمل هویت بصری، پرسپکتیو، لایه‌بندی، پالت رنگ و جلوگیری از معلق شدن کاراکتر.
+5. [`docs/TECH_SPEC.md`](./docs/TECH_SPEC.md) — مشخصات فنی، معماری نرم‌افزار، ساختار داده‌ها، مدیریت وضعیت و ماژول‌ها.
+6. [`docs/SCENE_SPECS.md`](./docs/SCENE_SPECS.md) — مشخصات تک‌تک صحنه‌ها، نقاط تعامل (Hotspots)، شروط ورود و خروج و پیشگیری از بن‌بست.
+7. [`docs/ACCEPTANCE_TESTS.md`](./docs/ACCEPTANCE_TESTS.md) — معیارهای پذیرش دقیق و سناریوهای آزمون خودکار و دستی.
+8. [`docs/ROADMAP.md`](./docs/ROADMAP.md) — نقشه راه فازبندی‌شده توسعه بازی، وابستگی‌ها و معیارهای خروج هر فاز.
+9. [`docs/DECISIONS.md`](./docs/DECISIONS.md) — ثبت تصمیمات معماری و طراحی (ADR) به همراه استدلال و فرضیات.
+10. [`docs/WORKLOG.md`](./docs/WORKLOG.md) — گزارش وقایع‌نگاری توسعه و اقدامات فاز صفر.
+
+---
+
+## ۴. ابزارهای مورد نیاز و روش اجرا
+### نیازمندی‌ها:
+- **Node.js:** نسخه 20 به بالا
+- **مدیر بسته‌ها:** npm یا bun
+
+### اجرای محیط توسعه:
+```bash
+npm install
+npm run dev
+```
+برنامه روی پورت `http://localhost:3000` در دسترس خواهد بود.
+
+### اعتبارسنجی و بیلد:
+```bash
+npm run lint    # بررسی تایپ‌ها و عدم وجود خطای کامپایل
+npm run build   # ایجاد بسته نهایی پروداکشن
+```

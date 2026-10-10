@@ -1,0 +1,6 @@
+{
+  "name": "فرکانس خاموش: پروندهٔ نوار سیزدهم",
+  "description": "یک بازی ماجراجویی داستان‌محور اشاره و کلیک در سبک کارآگاهی رازآلود در ایستگاه رادیویی ساحلی متروکه",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
