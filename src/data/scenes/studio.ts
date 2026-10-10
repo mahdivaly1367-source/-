@@ -35,17 +35,20 @@ export const STUDIO_SCENE: SceneDefinition = {
   title: "اتاق پخش و استودیو",
   subtitle: "ایستگاه رادیویی ساحلی مه‌آب",
   background: "/assets/studio-background.svg",
+  // Keep the walking polygon on the visible floor in front of the console.
+  // The old y=64 edge placed Ava's feet on the console's front panel.
   walkablePolygon: [
     [13, 92],
-    [26, 70],
-    [36, 64],
-    [67, 64],
-    [79, 71],
+    [23, 80],
+    [29, 76],
+    [36, 75],
+    [67, 75],
+    [76, 79],
     [90, 92],
   ],
   spawnPoint: [49, 88],
   perspective: {
-    minY: 35,
+    minY: 75,
     maxY: 90,
     minScale: 0.75,
     maxScale: 1.05,
