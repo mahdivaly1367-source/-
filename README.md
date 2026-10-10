@@ -52,7 +52,8 @@ npm run dev
 
 ### اعتبارسنجی و بیلد:
 ```bash
-npm run test:navigation  # آزمون هندسه حرکت و پرسپکتیو
+npm run test:navigation  # ۶ آزمون هندسه حرکت و پرسپکتیو
+npm run test:e2e         # ۴ آزمون مرورگری تعاملات فاز ۱
 npm run lint             # بررسی تایپ‌ها و عدم وجود خطای کامپایل
 npm run build            # ایجاد بسته نهایی پروداکشن
 ```
