@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { MouseEvent } from "react";
 import {
+  AudioLines,
   BookOpen,
   Check,
   CircleHelp,
@@ -25,8 +26,11 @@ import { HotspotOverlay } from "./components/viewport/HotspotOverlay";
 import { InventoryBar } from "./components/ui/InventoryBar";
 import { ItemInspectionModal } from "./components/ui/ItemInspectionModal";
 import { JournalModal } from "./components/ui/JournalModal";
+import { AudioDeskModal, type AudioDeskTab } from "./components/ui/AudioDeskModal";
+import { DialogueOverlay } from "./components/ui/DialogueOverlay";
 import { ITEMS } from "./data/items";
 import { CLUES } from "./data/clues";
+import { TAPE13_DIALOGUE } from "./data/dialogues";
 import "./game.css";
 
 const STARTING_POSITION: Point = STUDIO_SCENE.spawnPoint;
@@ -44,6 +48,16 @@ export default function GameApp() {
   const [inventoryIds, setInventoryIds] = useState<string[]>(["tape-13"]);
   const [discoveredClueIds, setDiscoveredClueIds] = useState<string[]>([]);
   const [hypothesisUnlocked, setHypothesisUnlocked] = useState(false);
+  const [motorHypothesisUnlocked, setMotorHypothesisUnlocked] = useState(false);
+  const [fuseInstalled, setFuseInstalled] = useState(false);
+  const [voltageSetting, setVoltageSetting] = useState<"110" | "220">("220");
+  const [deckPowered, setDeckPowered] = useState(false);
+  const [tapeSpeed, setTapeSpeed] = useState<"9.5" | "19">("9.5");
+  const [calibrationComplete, setCalibrationComplete] = useState(false);
+  const [motorAnalysisComplete, setMotorAnalysisComplete] = useState(false);
+  const [audioDeskOpen, setAudioDeskOpen] = useState(false);
+  const [audioDeskInitialTab, setAudioDeskInitialTab] = useState<AudioDeskTab>("calibration");
+  const [dialogueOpen, setDialogueOpen] = useState(false);
   const [activeItemId, setActiveItemId] = useState<string | null>(null);
   const [journalOpen, setJournalOpen] = useState(false);
   const [selectedItemForUse, setSelectedItemForUse] = useState<string | null>(null);
@@ -133,37 +147,46 @@ export default function GameApp() {
 
   const connectClues = useCallback((clueIds: string[]) => {
     const chosen = new Set(clueIds);
-    const correctPair = chosen.size === 2 &&
-      chosen.has("tape13-label") &&
-      chosen.has("shift-log-2210");
-    if (correctPair) {
-      setHypothesisUnlocked(true);
-      setStatus("یک فرضیهٔ موقت ثبت شد؛ هنوز برای متهم‌کردن کسی مدرک کافی نیست.");
-      return true;
-    }
+    const timePair = chosen.size === 2 && chosen.has("tape13-label") && chosen.has("shift-log-2210");
+    const motorPair = chosen.size === 2 && chosen.has("motor-40hz") && chosen.has("yanmar-catalog");
+    if (timePair) { setHypothesisUnlocked(true); setStatus("فرضیهٔ موقت دربارهٔ زمان ثبت کشیک ساخته شد؛ این اثبات جعل نیست."); return true; }
+    if (motorPair) { setMotorHypothesisUnlocked(true); setStatus("فرضیهٔ فنی موقت ساخته شد؛ صدای اصلی و ثبت شناور هنوز باید بررسی شوند."); return true; }
     setStatus("این دو سرنخ هنوز پیوند قابل دفاعی نمی‌سازند؛ مدرک بیشتری لازم است.");
     return false;
   }, []);
 
+
+  const installFuse = useCallback(() => {
+    if (fuseInstalled) { setStatus("فیوز ورودی از قبل نصب شده است."); return; }
+    if (!inventoryIds.includes("fuse-2a")) { setStatus("فیوز یدکی ۲ آمپر در اینونتوری نیست؛ ابتدا از کمد ابزار بردار."); return; }
+    setInventoryIds(current => current.filter(id => id !== "fuse-2a"));
+    setFuseInstalled(true); setDeckPowered(false);
+    setStatus("فیوز شیشه‌ای ۲ آمپر نصب شد. پیش از روشن کردن، ولتاژ ورودی باید روی ۱۱۰V باشد.");
+  }, [fuseInstalled, inventoryIds]);
+  const completeCalibration = useCallback(() => {
+    setCalibrationComplete(true); recordClue("tape13-message");
+    setStatus("کالیبراسیون موفق شد؛ رونوشت اولیهٔ تماس اضطراری قابل بررسی است.");
+  }, [recordClue]);
+  const completeMotorAnalysis = useCallback(() => {
+    setMotorAnalysisComplete(true); recordClue("motor-40hz");
+    setStatus("قلهٔ موتور نزدیک ۴۰ هرتز ثبت شد؛ اکنون آن را با کاتالوگ مستقل مقایسه کن.");
+  }, [recordClue]);
+
   const useItemOnHotspot = useCallback((hotspot: SceneHotspot, itemId: string) => {
     const item = ITEMS[itemId];
     if (!item) return;
+    const canInstallFuse = hotspot.id === "tape-deck" && itemId === "fuse-2a" && inventoryIds.includes("fuse-2a") && !fuseInstalled;
     let message: string;
-    if (hotspot.id === "tape-deck" && itemId === "fuse-2a") {
-      message = "فیوز ۲ آمپر برای بررسی مدار مناسب به نظر می‌رسد؛ اما پیش از نصب باید مسیر تغذیه و سلکتور ولتاژ بررسی شود. فیوز مصرف نشد.";
-    } else if (hotspot.id === "tape-deck" && itemId === "tape-13") {
-      message = "این همان نوار سیزدهم است. دستگاه هنوز بی‌برق است؛ اول باید علت قطع تغذیه را پیدا کنم.";
-    } else {
-      message = item.title + " کاربرد روشنی روی «" + hotspot.title + "» ندارد. آوا آن را کنار می‌گذارد؛ چیزی از اینونتوری کم نشد.";
-    }
-
+    if (hotspot.id === "tape-deck" && itemId === "fuse-2a" && fuseInstalled) message = "فیوز ورودی از قبل نصب شده است؛ چیزی از اینونتوری کم نشد.";
+    else if (canInstallFuse) message = "فیوز ۲ آمپر در جایگاه ورودی نصب شد. پیش از روشن کردن، سلکتور باید روی ۱۱۰V باشد.";
+    else if (hotspot.id === "tape-deck" && itemId === "tape-13") message = "این نوار سیزدهم است؛ ابتدا برق دستگاه و سرعت مرجع را تنظیم کن.";
+    else message = item.title + " کاربرد روشنی روی «" + hotspot.title + "» ندارد. آوا آن را کنار می‌گذارد؛ چیزی از اینونتوری کم نشد.";
     moveTo(hotspot.walkTarget, () => {
-      setFacing(hotspot.facing);
-      setActiveHotspot(null);
-      setSelectedItemForUse(null);
+      setFacing(hotspot.facing); setActiveHotspot(null); setSelectedItemForUse(null);
+      if (canInstallFuse) { setInventoryIds(current => current.filter(id => id !== "fuse-2a")); setFuseInstalled(true); setDeckPowered(false); }
       setStatus(message);
     });
-  }, [moveTo]);
+  }, [fuseInstalled, inventoryIds, moveTo]);
 
   const activateHotspot = useCallback((hotspot: SceneHotspot) => {
     setHoveredHotspotId(null);
@@ -204,10 +227,8 @@ export default function GameApp() {
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        setActiveHotspot(null);
-        setActiveItemId(null);
-        setJournalOpen(false);
-        setSelectedItemForUse(null);
+        setActiveHotspot(null); setActiveItemId(null); setJournalOpen(false);
+        setAudioDeskOpen(false); setDialogueOpen(false); setSelectedItemForUse(null);
       }
       if (event.ctrlKey && event.shiftKey && event.key.toLowerCase() === "d") {
         event.preventDefault();
@@ -237,7 +258,7 @@ export default function GameApp() {
           </div>
         </div>
         <div className="sf-topbar__right">
-          <span className="sf-phase-badge"><span /> برش قابل‌بازی · فاز ۲</span>
+          <span className="sf-phase-badge"><span /> برش قابل‌بازی · فاز ۳</span>
           <span className="sf-scene-name">{STUDIO_SCENE.title}</span>
           <a className="sf-docs-link" href="?view=docs" title="باز کردن میز مستندات" aria-label="باز کردن میز مستندات">
             <BookOpen size={17} /> مستندات
@@ -378,11 +399,12 @@ export default function GameApp() {
             <h2 id="sf-inspection-title">{activeHotspot.title}</h2>
             <p>{activeHotspot.description}</p>
             {activeHotspot.kind === "transition" && (
-              <div className="sf-inspection__note">
-                <Info size={17} />
-                <span>تعویض کامل صحنه‌ها در فاز بعد به موتور داده‌محور متصل می‌شود؛ اینجا مسیر برای آزمون تعامل و جهت‌گیری آماده است.</span>
-              </div>
+              <div className="sf-inspection__note"><Info size={17} /><span>تعویض کامل صحنه‌ها در فاز بعد به موتور داده‌محور متصل می‌شود؛ اینجا مسیر برای آزمون تعامل و جهت‌گیری آماده است.</span></div>
             )}
+            {activeHotspot.id === "tape-deck" && <div className="sf-phase3-actions">
+              <button type="button" className="sf-secondary-button" onClick={() => { recordClue("transformer-110v"); setStatus("یادداشت ولتاژ ترانس در دفترچه ثبت شد."); }}><BookOpen size={15}/> بررسی دفترچه تعمیرات</button>
+              <button type="button" className="sf-primary-button" onClick={() => { setAudioDeskInitialTab(calibrationComplete ? "motor" : "calibration"); setActiveHotspot(null); setAudioDeskOpen(true); }}><AudioLines size={15}/> باز کردن میز صوتی</button>
+            </div>}
             <div className="sf-inspection__bottom">
               <span className="sf-inspection__location"><Check size={15} /> آوا به نقطهٔ تعامل رسیده است</span>
               {activeHotspot.collectibleItemIds?.filter((itemId) => !inventoryIds.includes(itemId)).map((itemId) => {
@@ -400,6 +422,20 @@ export default function GameApp() {
         </div>
       )}
 
+      {audioDeskOpen && <AudioDeskModal
+        inventoryIds={inventoryIds} fuseInstalled={fuseInstalled} voltageSetting={voltageSetting}
+        deckPowered={deckPowered} tapeSpeed={tapeSpeed} calibrationComplete={calibrationComplete}
+        motorAnalysisComplete={motorAnalysisComplete} initialTab={audioDeskInitialTab}
+        onInstallFuse={installFuse} onSetVoltage={v => {setVoltageSetting(v);setDeckPowered(false);}}
+        onSetDeckPowered={setDeckPowered} onSetTapeSpeed={setTapeSpeed}
+        onCalibrationComplete={completeCalibration} onMotorAnalysisComplete={completeMotorAnalysis}
+        onRevealCatalogue={() => recordClue("yanmar-catalog")}
+        onOpenTranscript={() => {setAudioDeskOpen(false);setDialogueOpen(true);}}
+        onClose={() => setAudioDeskOpen(false)}
+      />}
+      {dialogueOpen && <DialogueOverlay dialogue={TAPE13_DIALOGUE} onRecordClue={recordClue}
+        onContinueAnalysis={() => {setDialogueOpen(false);setAudioDeskInitialTab("motor");setAudioDeskOpen(true);}}
+        onClose={() => setDialogueOpen(false)} />}
       {activeItemId && ITEMS[activeItemId] && (
         <ItemInspectionModal
           item={ITEMS[activeItemId]}
@@ -417,6 +453,7 @@ export default function GameApp() {
           clues={CLUES}
           discoveredClueIds={discoveredClueIds}
           hypothesisUnlocked={hypothesisUnlocked}
+          motorHypothesisUnlocked={motorHypothesisUnlocked}
           onLinkClues={connectClues}
           onClose={() => setJournalOpen(false)}
         />

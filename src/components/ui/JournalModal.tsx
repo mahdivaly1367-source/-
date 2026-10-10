@@ -7,6 +7,7 @@ interface JournalModalProps {
   clues: Record<string, ClueDefinition>;
   discoveredClueIds: string[];
   hypothesisUnlocked: boolean;
+  motorHypothesisUnlocked: boolean;
   onLinkClues: (clueIds: string[]) => boolean;
   onClose: () => void;
 }
@@ -24,6 +25,7 @@ export function JournalModal({
   clues,
   discoveredClueIds,
   hypothesisUnlocked,
+  motorHypothesisUnlocked,
   onLinkClues,
   onClose,
 }: JournalModalProps) {
@@ -138,6 +140,13 @@ export function JournalModal({
                 <p>خط آبی ساعت ۲۲:۱۰ با نوشته‌های اطراف تفاوت دارد؛ برچسب نوار فقط تنظیم فنی ضبط را نشان می‌دهد. این پیوند به‌تنهایی جعل، زمان دقیق واقعه یا هویت مسئول را ثابت نمی‌کند. صدای نوار و شواهد بعدی لازم‌اند.</p>
               </article>
             )}
+            {motorHypothesisUnlocked && (
+              <article className="sf-hypothesis">
+                <span><Check size={15} /> فرضیهٔ فنی موقت</span>
+                <h3>نوع موتور گزارش‌شده نیازمند بررسی دوباره است</h3>
+                <p>قلهٔ نزدیک ۴۰ هرتز با محدودهٔ کاتالوگ یانمار دیزل سازگار است و با محدودهٔ یاماها بنزینی تفاوت دارد. چون ورودی فعلی مصنوعی است، تا تحلیل نوار اصلی و تطبیق با ثبت شناور نمی‌توان نتیجهٔ قطعی گرفت.</p>
+              </article>
+            )}
           </div>
         )}
 
@@ -180,7 +189,7 @@ export function JournalModal({
         )}
 
         <div className="sf-journal__footer">
-          <span>{hypothesisUnlocked ? <Check size={14} /> : <BookOpen size={14} />} {hypothesisUnlocked ? "یک فرضیه ثبت شده؛ تحقیق ادامه دارد" : "فرضیه‌سازی بر پایهٔ شواهد، نه حدس"}</span>
+          <span>{hypothesisUnlocked || motorHypothesisUnlocked ? <Check size={14} /> : <BookOpen size={14} />} {hypothesisUnlocked || motorHypothesisUnlocked ? "فرضیهٔ موقت ثبت شده؛ تحقیق ادامه دارد" : "فرضیه‌سازی بر پایهٔ شواهد، نه حدس"}</span>
           <button type="button" className="sf-primary-button" onClick={onClose}>بازگشت به اتاق</button>
         </div>
       </section>
