@@ -1,4 +1,4 @@
-import type { CSSProperties, FocusEvent, MouseEvent } from "react";
+import type { CSSProperties, DragEvent, FocusEvent, MouseEvent } from "react";
 import { ArrowUpRight, Eye } from "lucide-react";
 import type { SceneHotspot } from "../../data/scenes/studio";
 
@@ -8,6 +8,7 @@ interface HotspotOverlayProps {
   debugMode: boolean;
   onActivate: (hotspot: SceneHotspot) => void;
   onHover: (id: string | null) => void;
+  onUseItem: (hotspot: SceneHotspot, itemId: string) => void;
 }
 
 function polygonStyle(points: readonly (readonly [number, number])[]): CSSProperties {
@@ -47,6 +48,7 @@ export function HotspotOverlay({
   debugMode,
   onActivate,
   onHover,
+  onUseItem,
 }: HotspotOverlayProps) {
   return (
     <div className="sf-hotspot-layer">
@@ -60,7 +62,7 @@ export function HotspotOverlay({
               left: Math.min(...hotspot.polygon.map((p) => p[0])) + "%",
               top: Math.min(...hotspot.polygon.map((p) => p[1])) + "%",
               width: (Math.max(...hotspot.polygon.map((p) => p[0])) - Math.min(...hotspot.polygon.map((p) => p[0]))) + "%",
-              height: (Math.max(...hotspot.polygon.map((p) => p[1])) - Math.min(...hotspot.polygon.map((p) => p[1]))) + "%",
+              height: (Math.max(...hotspot.polygon.map((p) => p[1]) - Math.min(...hotspot.polygon.map((p) => p[1]))) + "%",
             }}
           >
             <button
@@ -79,7 +81,7 @@ export function HotspotOverlay({
                 height: "100%",
               }}
               aria-label={hotspot.label}
-              title={hotspot.label}
+              title={hotspot.label + " — برای بررسی کلیک کن؛ برای استفاده از وسیله آن را اینجا رها کن"}
               onMouseEnter={() => onHover(hotspot.id)}
               onMouseLeave={() => onHover(null)}
               onFocus={(event) => {
@@ -89,6 +91,18 @@ export function HotspotOverlay({
               onBlur={(event) => {
                 stopPropagation(event);
                 onHover(null);
+              }}
+              onDragOver={(event: DragEvent<HTMLButtonElement>) => {
+                event.preventDefault();
+                event.dataTransfer.dropEffect = "move";
+              }}
+              onDrop={(event: DragEvent<HTMLButtonElement>) => {
+                event.preventDefault();
+                event.stopPropagation();
+                const itemId =
+                  event.dataTransfer.getData("application/x-silent-frequency-item") ||
+                  event.dataTransfer.getData("text/plain");
+                if (itemId) onUseItem(hotspot, itemId);
               }}
               onClick={(event) => {
                 event.stopPropagation();

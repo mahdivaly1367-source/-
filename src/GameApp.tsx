@@ -22,6 +22,11 @@ import {
 } from "./engine/navigation/perspective";
 import { CharacterSprite } from "./components/viewport/CharacterSprite";
 import { HotspotOverlay } from "./components/viewport/HotspotOverlay";
+import { InventoryBar } from "./components/ui/InventoryBar";
+import { ItemInspectionModal } from "./components/ui/ItemInspectionModal";
+import { JournalModal } from "./components/ui/JournalModal";
+import { ITEMS } from "./data/items";
+import { CLUES } from "./data/clues";
 import "./game.css";
 
 const STARTING_POSITION: Point = STUDIO_SCENE.spawnPoint;
@@ -35,7 +40,13 @@ export default function GameApp() {
   const [activeHotspot, setActiveHotspot] = useState<SceneHotspot | null>(null);
   const [hoveredHotspotId, setHoveredHotspotId] = useState<string | null>(null);
   const [debugMode, setDebugMode] = useState(false);
-  const [status, setStatus] = useState("روی کف اتاق کلیک کن تا آوا حرکت کند؛ برای بررسی، ماوس را روی اشیا ببر.");
+  const [status, setStatus] = useState("اتاق را بررسی کن؛ نوار سیزدهم در اینونتوری است و سرنخ‌ها در دفترچه ثبت می‌شوند.");
+  const [inventoryIds, setInventoryIds] = useState<string[]>(["tape-13"]);
+  const [discoveredClueIds, setDiscoveredClueIds] = useState<string[]>([]);
+  const [hypothesisUnlocked, setHypothesisUnlocked] = useState(false);
+  const [activeItemId, setActiveItemId] = useState<string | null>(null);
+  const [journalOpen, setJournalOpen] = useState(false);
+  const [selectedItemForUse, setSelectedItemForUse] = useState<string | null>(null);
   const viewportRef = useRef<HTMLElement | null>(null);
 
   const moveTo = useCallback((rawTarget: Point, onArrive?: () => void) => {
@@ -89,15 +100,84 @@ export default function GameApp() {
     animationRef.current = requestAnimationFrame(tick);
   }, []);
 
+
+  const recordClue = useCallback((clueId: string) => {
+    const clue = CLUES[clueId];
+    if (!clue) return;
+    if (!discoveredClueIds.includes(clueId)) {
+      setDiscoveredClueIds((current) => current.includes(clueId) ? current : [...current, clueId]);
+      setStatus("سرنخ تازه در دفترچه ثبت شد: " + clue.title);
+    }
+  }, [discoveredClueIds]);
+
+  const collectItem = useCallback((itemId: string) => {
+    const item = ITEMS[itemId];
+    if (!item) return;
+    if (inventoryIds.includes(itemId)) {
+      setStatus("این وسیله از قبل در اینونتوری است.");
+      return;
+    }
+    setInventoryIds((current) => current.includes(itemId) ? current : [...current, itemId]);
+    setStatus(item.title + " به اینونتوری اضافه شد.");
+  }, [inventoryIds]);
+
+  const inspectItem = useCallback((itemId: string) => {
+    const item = ITEMS[itemId];
+    if (!item) return;
+    setActiveHotspot(null);
+    setJournalOpen(false);
+    setActiveItemId(itemId);
+    if (item.revealsClueId) recordClue(item.revealsClueId);
+  }, [recordClue]);
+
+  const connectClues = useCallback((clueIds: string[]) => {
+    const chosen = new Set(clueIds);
+    const correctPair = chosen.size === 2 &&
+      chosen.has("tape13-label") &&
+      chosen.has("shift-log-2210");
+    if (correctPair) {
+      setHypothesisUnlocked(true);
+      setStatus("یک فرضیهٔ موقت ثبت شد؛ هنوز برای متهم‌کردن کسی مدرک کافی نیست.");
+      return true;
+    }
+    setStatus("این دو سرنخ هنوز پیوند قابل دفاعی نمی‌سازند؛ مدرک بیشتری لازم است.");
+    return false;
+  }, []);
+
+  const useItemOnHotspot = useCallback((hotspot: SceneHotspot, itemId: string) => {
+    const item = ITEMS[itemId];
+    if (!item) return;
+    let message: string;
+    if (hotspot.id === "tape-deck" && itemId === "fuse-2a") {
+      message = "فیوز ۲ آمپر برای بررسی مدار مناسب به نظر می‌رسد؛ اما پیش از نصب باید مسیر تغذیه و سلکتور ولتاژ بررسی شود. فیوز مصرف نشد.";
+    } else if (hotspot.id === "tape-deck" && itemId === "tape-13") {
+      message = "این همان نوار سیزدهم است. دستگاه هنوز بی‌برق است؛ اول باید علت قطع تغذیه را پیدا کنم.";
+    } else {
+      message = item.title + " کاربرد روشنی روی «" + hotspot.title + "» ندارد. آوا آن را کنار می‌گذارد؛ چیزی از اینونتوری کم نشد.";
+    }
+
+    moveTo(hotspot.walkTarget, () => {
+      setFacing(hotspot.facing);
+      setActiveHotspot(null);
+      setSelectedItemForUse(null);
+      setStatus(message);
+    });
+  }, [moveTo]);
+
   const activateHotspot = useCallback((hotspot: SceneHotspot) => {
     setHoveredHotspotId(null);
+    if (selectedItemForUse) {
+      useItemOnHotspot(hotspot, selectedItemForUse);
+      return;
+    }
     setActiveHotspot(null);
     moveTo(hotspot.walkTarget, () => {
       setFacing(hotspot.facing);
       setActiveHotspot(hotspot);
       setStatus("بررسی شد: " + hotspot.title);
+      if (hotspot.clueId) recordClue(hotspot.clueId);
     });
-  }, [moveTo]);
+  }, [moveTo, recordClue, selectedItemForUse, useItemOnHotspot]);
 
   const handleViewportClick = (event: MouseEvent<HTMLElement>) => {
     if (activeHotspot || !viewportRef.current) return;
@@ -118,6 +198,9 @@ export default function GameApp() {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setActiveHotspot(null);
+        setActiveItemId(null);
+        setJournalOpen(false);
+        setSelectedItemForUse(null);
       }
       if (event.ctrlKey && event.shiftKey && event.key.toLowerCase() === "d") {
         event.preventDefault();
@@ -147,7 +230,7 @@ export default function GameApp() {
           </div>
         </div>
         <div className="sf-topbar__right">
-          <span className="sf-phase-badge"><span /> نمونهٔ قابل‌بازی · فاز ۱</span>
+          <span className="sf-phase-badge"><span /> برش قابل‌بازی · فاز ۲</span>
           <span className="sf-scene-name">{STUDIO_SCENE.title}</span>
           <a className="sf-docs-link" href="?view=docs" title="باز کردن میز مستندات" aria-label="باز کردن میز مستندات">
             <BookOpen size={17} /> مستندات
@@ -194,6 +277,7 @@ export default function GameApp() {
             debugMode={debugMode}
             onActivate={activateHotspot}
             onHover={setHoveredHotspotId}
+            onUseItem={useItemOnHotspot}
           />
 
           {debugMode && (
@@ -230,6 +314,19 @@ export default function GameApp() {
           </div>
         </section>
       </section>
+
+      <InventoryBar
+        itemIds={inventoryIds}
+        discoveredClueCount={discoveredClueIds.length}
+        selectedItemForUse={selectedItemForUse}
+        onInspectItem={inspectItem}
+        onOpenJournal={() => {
+          setActiveHotspot(null);
+          setActiveItemId(null);
+          setSelectedItemForUse(null);
+          setJournalOpen(true);
+        }}
+      />
 
       <footer className="sf-footer">
         <div className="sf-status" aria-live="polite">
@@ -281,10 +378,41 @@ export default function GameApp() {
             )}
             <div className="sf-inspection__bottom">
               <span className="sf-inspection__location"><Check size={15} /> آوا به نقطهٔ تعامل رسیده است</span>
+              {activeHotspot.collectibleItemIds?.filter((itemId) => !inventoryIds.includes(itemId)).map((itemId) => {
+                const item = ITEMS[itemId];
+                const ItemIcon = item.icon;
+                return (
+                  <button key={itemId} type="button" className="sf-secondary-button" onClick={() => collectItem(itemId)}>
+                    <ItemIcon size={15} /> برداشتن {item.title}
+                  </button>
+                );
+              })}
               <button type="button" className="sf-primary-button" onClick={() => setActiveHotspot(null)}>ادامهٔ کاوش</button>
             </div>
           </section>
         </div>
+      )}
+
+      {activeItemId && ITEMS[activeItemId] && (
+        <ItemInspectionModal
+          item={ITEMS[activeItemId]}
+          onClose={() => setActiveItemId(null)}
+          onSelectForUse={(itemId) => {
+            setSelectedItemForUse(itemId);
+            setActiveItemId(null);
+            setStatus("وسیله انتخاب شد؛ حالا آن را روی شیء مناسب رها کن یا با کلیک روی آن شیء استفاده‌اش کن.");
+          }}
+        />
+      )}
+
+      {journalOpen && (
+        <JournalModal
+          clues={CLUES}
+          discoveredClueIds={discoveredClueIds}
+          hypothesisUnlocked={hypothesisUnlocked}
+          onLinkClues={connectClues}
+          onClose={() => setJournalOpen(false)}
+        />
       )}
 
       <div className="sf-sr-only" aria-live="polite">{status}</div>
