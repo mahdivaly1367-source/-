@@ -30,6 +30,19 @@ test("capture the rendered studio and verify the character sprite foot origin", 
   expect(Math.abs(origin.originX - origin.width / 2)).toBeLessThanOrEqual(1);
   expect(Math.abs(origin.originY - origin.height)).toBeLessThanOrEqual(1);
 
+  const footAnchor = await page.locator(".sf-character").evaluate((element) => {
+    const style = getComputedStyle(element);
+    const matrix = new DOMMatrixReadOnly(style.transform);
+    return {
+      width: element.offsetWidth,
+      height: element.offsetHeight,
+      translateX: matrix.m41,
+      translateY: matrix.m42,
+    };
+  });
+  expect(Math.abs(footAnchor.translateX + footAnchor.width * 0.5)).toBeLessThanOrEqual(1);
+  expect(Math.abs(footAnchor.translateY + footAnchor.height * 0.96)).toBeLessThanOrEqual(1);
+
   await mkdir("artifacts", { recursive: true });
   await page.screenshot({ path: "artifacts/phase1-studio-full.png", fullPage: true });
   await page.locator(".sf-viewport").screenshot({ path: "artifacts/phase1-studio-viewport.png" });
