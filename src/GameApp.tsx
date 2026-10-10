@@ -362,7 +362,13 @@ export default function GameApp() {
             <span className="sf-objective__icon"><Eye size={16} /></span>
             <div>
               <span>هدف فعلی</span>
-              <strong>اتاق را بررسی کن</strong>
+              <strong>{gameEnded ? "پرونده تکمیل شد" :
+                currentSceneId === "scene_exterior" ? (inventoryIds.includes("insulated-cutters") ? "زنجیر در را با سیم‌چین باز کن" : "جعبه‌ابزار کنار بولدوزر را بگرد") :
+                currentSceneId === "scene_studio" ? (hatchOpened ? "نوار مستر را به مرجع مستقل بسپار" : "دستگاه ضبط و شواهد ایستگاه را بررسی کن") :
+                currentSceneId === "scene_archive" ? "نوارها و سوابق رسمی را مقایسه کن" :
+                currentSceneId === "scene_pier" ? (bahmanConfessed ? "کلید فانوس را به کار بگیر" : "مدارک فنی را برای گفت‌وگو آماده کن") :
+                currentSceneId === "scene_lighthouse" ? (khosroMet ? "به خانهٔ راد سر بزن" : "با خسرو گفت‌وگو کن") :
+                "عکس افتتاحیه و یادداشت ۱۳۵۹ را پیدا کن"}</strong>
             </div>
           </div>
 
