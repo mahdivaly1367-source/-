@@ -14,12 +14,11 @@ test("capture the rendered studio and verify the character sprite foot origin", 
 
   const sprite = page.locator(".sf-ava-art");
   const origin = await sprite.evaluate((element) => {
-    const rect = element.getBoundingClientRect();
     const style = getComputedStyle(element);
     const parts = style.transformOrigin.split(" ").map((value) => Number.parseFloat(value));
     return {
-      width: rect.width,
-      height: rect.height,
+      width: (element as HTMLElement).offsetWidth,
+      height: (element as HTMLElement).offsetHeight,
       originX: parts[0],
       originY: parts[1],
     };
