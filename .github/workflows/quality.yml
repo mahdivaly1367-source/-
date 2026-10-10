@@ -33,3 +33,11 @@ jobs:
         run: npm run lint
       - name: Build production bundle
         run: npm run build
+      - name: Upload Phase 1 visual QA captures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase1-browser-captures
+          path: artifacts/*.png
+          if-no-files-found: warn
+          retention-days: 7
