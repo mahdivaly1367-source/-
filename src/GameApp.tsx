@@ -13,7 +13,8 @@ import {
   RadioTower,
   X,
 } from "lucide-react";
-import { STUDIO_SCENE, type SceneHotspot } from "./data/scenes/studio";
+import { STUDIO_SCENE, type SceneHotspot, type SceneId } from "./data/scenes/studio";
+import { SCENES } from "./data/scenes";
 import {
   distanceBetween,
   pointInPolygon,
@@ -33,9 +34,12 @@ import { CLUES } from "./data/clues";
 import { TAPE13_DIALOGUE } from "./data/dialogues";
 import "./game.css";
 
-const STARTING_POSITION: Point = STUDIO_SCENE.spawnPoint;
+const STARTING_SCENE_ID: SceneId = "scene_exterior";
+const STARTING_POSITION: Point = SCENES[STARTING_SCENE_ID].spawnPoint;
 
 export default function GameApp() {
+  const [currentSceneId, setCurrentSceneId] = useState<SceneId>(STARTING_SCENE_ID);
+  const currentScene = SCENES[currentSceneId];
   const [player, setPlayer] = useState<Point>(STARTING_POSITION);
   const playerRef = useRef<Point>(STARTING_POSITION);
   const animationRef = useRef<number | null>(null);
@@ -58,13 +62,21 @@ export default function GameApp() {
   const [audioDeskOpen, setAudioDeskOpen] = useState(false);
   const [audioDeskInitialTab, setAudioDeskInitialTab] = useState<AudioDeskTab>("calibration");
   const [dialogueOpen, setDialogueOpen] = useState(false);
+  const [stationDoorUnlocked, setStationDoorUnlocked] = useState(false);
+  const [transmitterPanelOpened, setTransmitterPanelOpened] = useState(false);
+  const [bahmanConfessed, setBahmanConfessed] = useState(false);
+  const [khosroMet, setKhosroMet] = useState(false);
+  const [forkResonating, setForkResonating] = useState(false);
+  const [hatchOpened, setHatchOpened] = useState(false);
+  const [hatchCode, setHatchCode] = useState("");
+  const [gameEnded, setGameEnded] = useState(false);
   const [activeItemId, setActiveItemId] = useState<string | null>(null);
   const [journalOpen, setJournalOpen] = useState(false);
   const [selectedItemForUse, setSelectedItemForUse] = useState<string | null>(null);
   const viewportRef = useRef<HTMLElement | null>(null);
 
   const moveTo = useCallback((rawTarget: Point, onArrive?: () => void) => {
-    const target = projectToWalkableArea(rawTarget, STUDIO_SCENE.walkablePolygon);
+    const target = projectToWalkableArea(rawTarget, currentScene.walkablePolygon);
     const start = playerRef.current;
     const distance = distanceBetween(start, target);
 
@@ -112,8 +124,20 @@ export default function GameApp() {
     };
 
     animationRef.current = requestAnimationFrame(tick);
-  }, []);
+  }, [currentScene]);
 
+  const changeScene = useCallback((sceneId: SceneId) => {
+    const next = SCENES[sceneId];
+    setCurrentSceneId(sceneId);
+    playerRef.current = next.spawnPoint;
+    setPlayer(next.spawnPoint);
+    setFacing("front");
+    setMoving(false);
+    setActiveHotspot(null);
+    setHoveredHotspotId(null);
+    setSelectedItemForUse(null);
+    setStatus("ورود به صحنه: " + next.title);
+  }, []);
 
   const recordClue = useCallback((clueId: string) => {
     const clue = CLUES[clueId];
@@ -175,6 +199,36 @@ export default function GameApp() {
   const useItemOnHotspot = useCallback((hotspot: SceneHotspot, itemId: string) => {
     const item = ITEMS[itemId];
     if (!item) return;
+
+    if (hotspot.action === "station-door" && itemId === "insulated-cutters" && currentSceneId === "scene_exterior") {
+      moveTo(hotspot.walkTarget, () => {
+        setStationDoorUnlocked(true);
+        setStatus("زنجیر بریده شد؛ در ایستگاه باز است.");
+        if (hotspot.targetSceneId) changeScene(hotspot.targetSceneId);
+      });
+      return;
+    }
+    if (hotspot.action === "transmitter-panel" && itemId === "rusty-wrench" && currentSceneId === "scene_studio") {
+      moveTo(hotspot.walkTarget, () => {
+        setTransmitterPanelOpened(true);
+        setActiveHotspot(hotspot);
+        setSelectedItemForUse(null);
+        setStatus("قاب تابلوی فرستنده باز شد؛ فیوز را با دقت بررسی کن.");
+      });
+      return;
+    }
+    if (hotspot.action === "floor-hatch" && itemId === "tuning-fork-440" && currentSceneId === "scene_studio") {
+      moveTo(hotspot.walkTarget, () => {
+        setForkResonating(true);
+        setHatchCode("");
+        setActiveHotspot(hotspot);
+        setSelectedItemForUse(null);
+        setStatus("دیاپازون ۴۴۰ هرتز مرتعش است؛ ده ثانیه برای جاگذاری در شیار تشدید فرصت داری.");
+        window.setTimeout(() => setForkResonating(false), 10000);
+      });
+      return;
+    }
+
     const canInstallFuse = hotspot.id === "tape-deck" && itemId === "fuse-2a" && inventoryIds.includes("fuse-2a") && !fuseInstalled;
     let message: string;
     if (hotspot.id === "tape-deck" && itemId === "fuse-2a" && fuseInstalled) message = "فیوز ورودی از قبل نصب شده است؛ چیزی از اینونتوری کم نشد.";
@@ -186,22 +240,29 @@ export default function GameApp() {
       if (canInstallFuse) { setInventoryIds(current => current.filter(id => id !== "fuse-2a")); setFuseInstalled(true); setDeckPowered(false); }
       setStatus(message);
     });
-  }, [fuseInstalled, inventoryIds, moveTo]);
+  }, [currentSceneId, changeScene, fuseInstalled, inventoryIds, moveTo]);
 
   const activateHotspot = useCallback((hotspot: SceneHotspot) => {
     setHoveredHotspotId(null);
-    if (selectedItemForUse) {
-      useItemOnHotspot(hotspot, selectedItemForUse);
+    if (selectedItemForUse) { useItemOnHotspot(hotspot, selectedItemForUse); return; }
+
+    if (hotspot.action === "station-door" && !stationDoorUnlocked) {
+      setActiveHotspot(hotspot); setStatus(hotspot.lockedMessage ?? "در ایستگاه قفل است."); return;
+    }
+    if (hotspot.targetSceneId) {
+      if (hotspot.requiredItemId && !inventoryIds.includes(hotspot.requiredItemId)) {
+        setActiveHotspot(hotspot); setStatus(hotspot.lockedMessage ?? "برای این مسیر هنوز وسیلهٔ لازم را نداری."); return;
+      }
+      moveTo(hotspot.walkTarget, () => changeScene(hotspot.targetSceneId!));
       return;
     }
     setActiveHotspot(null);
     moveTo(hotspot.walkTarget, () => {
-      setFacing(hotspot.facing);
-      setActiveHotspot(hotspot);
+      setFacing(hotspot.facing); setActiveHotspot(hotspot);
       setStatus("بررسی شد: " + hotspot.title);
       if (hotspot.clueId) recordClue(hotspot.clueId);
     });
-  }, [moveTo, recordClue, selectedItemForUse, useItemOnHotspot]);
+  }, [changeScene, inventoryIds, moveTo, recordClue, selectedItemForUse, stationDoorUnlocked, useItemOnHotspot]);
 
   const handleViewportClick = (event: MouseEvent<HTMLElement>) => {
     if (activeHotspot || !viewportRef.current) return;
@@ -214,9 +275,9 @@ export default function GameApp() {
     const contentHeight = viewportRef.current.clientHeight;
     const x = ((event.clientX - contentLeft) / contentWidth) * 100;
     const y = ((event.clientY - contentTop) / contentHeight) * 100;
-    const target = projectToWalkableArea([x, y], STUDIO_SCENE.walkablePolygon);
+    const target = projectToWalkableArea([x, y], currentScene.walkablePolygon);
 
-    if (!pointInPolygon([x, y], STUDIO_SCENE.walkablePolygon)) {
+    if (!pointInPolygon([x, y], currentScene.walkablePolygon)) {
       setStatus("این نقطه بیرون از سطح حرکت است؛ مقصد به نزدیک‌ترین نقطهٔ مجاز منتقل شد.");
     } else {
       setStatus("آوا به محل انتخاب‌شده حرکت می‌کند.");
@@ -245,7 +306,7 @@ export default function GameApp() {
     };
   }, []);
 
-  const depthScale = scaleFromDepth(player[1], STUDIO_SCENE.perspective);
+  const depthScale = scaleFromDepth(player[1], currentScene.perspective);
 
   return (
     <main className="sf-app">
@@ -258,8 +319,8 @@ export default function GameApp() {
           </div>
         </div>
         <div className="sf-topbar__right">
-          <span className="sf-phase-badge"><span /> برش قابل‌بازی · فاز ۳</span>
-          <span className="sf-scene-name">{STUDIO_SCENE.title}</span>
+          <span className="sf-phase-badge"><span /> پردهٔ روایی · فاز ۴</span>
+          <span className="sf-scene-name">{currentScene.title}</span>
           <a className="sf-docs-link" href="?view=docs" title="باز کردن میز مستندات" aria-label="باز کردن میز مستندات">
             <BookOpen size={17} /> مستندات
           </a>
@@ -271,17 +332,17 @@ export default function GameApp() {
           className="sf-viewport"
           ref={viewportRef}
           onClick={handleViewportClick}
-          aria-label="اتاق پخش ایستگاه رادیویی مه‌آب؛ برای حرکت روی سطح زمین کلیک کن."
+          aria-label={currentScene.title + "؛ برای حرکت روی سطح زمین کلیک کن."}
         >
-          <img className="sf-background" src={STUDIO_SCENE.background} alt="" draggable={false} />
+          <img className="sf-background" src={currentScene.background} alt="" draggable={false} />
           <div className="sf-window-haze" aria-hidden="true" />
           <div className="sf-rain-glass" aria-hidden="true" />
           <div className="sf-vignette" aria-hidden="true" />
 
           <div className="sf-scene-label">
-            <span className="sf-scene-label__eyebrow">مه‌آب · ۲۳ آبان ۱۳۷۸</span>
-            <strong>{STUDIO_SCENE.subtitle}</strong>
-            <span className="sf-scene-label__status"><span /> باران شدید · برق اصلی قطع است</span>
+            <span className="sf-scene-label__eyebrow">بندر مه‌آب · ۲۳ آبان ۱۳۷۸</span>
+            <strong>{currentScene.subtitle}</strong>
+            <span className="sf-scene-label__status"><span /> پروندهٔ نوار سیزدهم · تحقیق ادامه دارد</span>
           </div>
 
           <div className="sf-objective">
@@ -296,11 +357,11 @@ export default function GameApp() {
             position={player}
             facing={facing}
             moving={moving}
-            perspective={STUDIO_SCENE.perspective}
+            perspective={currentScene.perspective}
           />
 
           <HotspotOverlay
-            hotspots={STUDIO_SCENE.hotspots}
+            hotspots={currentScene.hotspots}
             hoveredId={hoveredHotspotId}
             debugMode={debugMode}
             onActivate={activateHotspot}
@@ -311,10 +372,10 @@ export default function GameApp() {
           {debugMode && (
             <svg className="sf-debug-overlay" viewBox="0 0 100 100" preserveAspectRatio="none" aria-label="نمایش نواحی حرکت و نقاط تعامل">
               <polygon
-                points={STUDIO_SCENE.walkablePolygon.map((point) => point.join(",")).join(" ")}
+                points={currentScene.walkablePolygon.map((point) => point.join(",")).join(" ")}
                 className="sf-debug-overlay__walkable"
               />
-              {STUDIO_SCENE.hotspots.map((hotspot) => (
+              {currentScene.hotspots.map((hotspot) => (
                 <polygon
                   key={hotspot.id}
                   points={hotspot.polygon.map((point) => point.join(",")).join(" ")}
