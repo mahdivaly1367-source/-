@@ -278,7 +278,7 @@
   white-space: nowrap;
 }
 .sf-hotspot-label[data-visible="true"] { opacity: 1; transform: translateY(0); }
-.sf-hotspot-label__dot { display: inline-block; flex: 0 0 auto; width: 5px; height: 5px; border-radius: 50%; background: #d8b978; }
+.sf-hotspot-label__icon { display: inline-grid; flex: 0 0 auto; place-items: center; color: #e5c783; }
 
 .sf-debug-overlay { position: absolute; z-index: 10; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
 .sf-debug-overlay__walkable { fill: rgba(65, 178, 133, 0.16); stroke: #66d6ac; stroke-width: 0.38; stroke-dasharray: 1 0.7; vector-effect: non-scaling-stroke; }
