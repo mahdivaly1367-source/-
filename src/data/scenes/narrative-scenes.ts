@@ -45,7 +45,7 @@ export const LIGHTHOUSE_SCENE: SceneDefinition = {
  background:"/assets/lighthouse-background.svg",walkablePolygon:[[15,93],[23,80],[31,75],[68,75],[80,82],[87,93]],spawnPoint:[26,88],
  perspective:{minY:75,maxY:93,minScale:.76,maxScale:1.07},
  hotspots:[
-  {id:"khosro-table",label:"میز گرد خسرو",title:"میز و نقشهٔ خسرو",description:"خسرو نقشهٔ دریایی و قطب‌نما را کنار پیپ گذاشته است. پس از گفت‌وگو، او سرنوشت سهراب را شرح می‌دهد و دیاپازون نقره‌ای را به آوا می‌سپارد.",kind:"examine",action:"khosro-meeting",collectibleItemIds:["tuning-fork-440"],clueId:"khosro-fate",polygon:[[43,39],[67,39],[67,59],[43,59]],walkTarget:[48,74],facing:"right"},
+  {id:"khosro-table",label:"میز گرد خسرو",title:"میز و نقشهٔ خسرو",description:"خسرو نقشهٔ دریایی و قطب‌نما را کنار پیپ گذاشته است. پس از گفت‌وگو، او سرنوشت سهراب را شرح می‌دهد و دیاپازون نقره‌ای را به آوا می‌سپارد.",kind:"examine",action:"khosro-meeting",clueId:"khosro-fate",polygon:[[43,39],[67,39],[67,59],[43,59]],walkTarget:[48,74],facing:"right"},
   {id:"fresnel-lens",label:"لنز فرسنل فانوس",title:"لنز فرسنل و افق دریا",description:"از میان منشورهای شیشه‌ای، در جزر می‌توان خط تیرهٔ لاشهٔ ققنوس را روی صخره دید. این مشاهده مسیر بررسی را تقویت می‌کند اما هویت محموله را ثابت نمی‌کند.",kind:"examine",clueId:"lighthouse-wreck-sighting",polygon:[[31,8],[68,8],[68,36],[31,36]],walkTarget:[52,72],facing:"back"},
   {id:"lighthouse-exit",label:"بازگشت به اسکله",title:"پلکان و در فانوس",description:"راه برگشت از پلکان باریک به اسکله باز است؛ گرفتن دیاپازون وضعیت در را تغییر نمی‌دهد.",kind:"transition",targetSceneId:"scene_pier",polygon:[[3,55],[17,55],[17,78],[3,78]],walkTarget:[24,79],facing:"left"}
  ]

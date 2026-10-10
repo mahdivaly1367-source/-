@@ -131,6 +131,7 @@ export const STUDIO_SCENE: SceneDefinition = {
       kind: "examine",
       clueId: "floor-hatch-seam",
       action: "floor-hatch",
+      collectibleItemIds: [],
       polygon: [[43, 68], [65, 68], [65, 82], [43, 82]],
       walkTarget: [54, 88],
       facing: "front",

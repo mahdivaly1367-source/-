@@ -12,8 +12,9 @@ import {
   MousePointer2,
   RadioTower,
   X,
+  Zap,
 } from "lucide-react";
-import { STUDIO_SCENE, type SceneHotspot, type SceneId } from "./data/scenes/studio";
+import { type SceneHotspot, type SceneId } from "./data/scenes/studio";
 import { SCENES } from "./data/scenes";
 import {
   distanceBetween,
