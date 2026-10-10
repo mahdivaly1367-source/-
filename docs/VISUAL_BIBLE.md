@@ -69,7 +69,7 @@
 |    │                                                      |
 |    ▼ Y = MaxY (جلوی صحنه): مقیاس ۱.۰۵ (کاراکتر نزدیک‌تر)  |
 +-----------------------------------------------------------+
-| [Layer 3: Dynamic Character Sprite (Foot Anchor: 50% X, 98% Y)]
+| [Layer 3: Dynamic Character Sprite (Foot Anchor: 50% X, 96% Y)]
 +-----------------------------------------------------------+
 | [Layer 4: Foreground Occluders - Tables, Cables, Plants]  |
 +-----------------------------------------------------------+
