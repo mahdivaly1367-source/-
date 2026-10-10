@@ -45,6 +45,36 @@ test("capture the rendered studio and verify the character sprite foot origin", 
   });
   expect(Math.abs(footAnchor.translateX + footAnchor.width * 0.5)).toBeLessThanOrEqual(0.25);
   expect(Math.abs(footAnchor.translateY + footAnchor.height * 0.96)).toBeLessThanOrEqual(0.25);
+
+  const viewport = page.locator(".sf-viewport");
+  const bounds = await viewport.boundingBox();
+  expect(bounds).not.toBeNull();
+  if (!bounds) throw new Error("Game viewport has no rendered bounds.");
+
+  const debugToggle = page.getByRole("button", { name: /ابزار آزمون/ });
+  await debugToggle.click();
+  await viewport.click({
+    position: { x: bounds.width * 0.3, y: bounds.height * 0.85 },
+  });
+  await expect.poll(() => page.locator(".sf-debug-readout").innerText()).toContain("Foot Y 85.0%");
+  const nearScale = await sprite.evaluate((element) =>
+    Number.parseFloat(getComputedStyle(element).getPropertyValue("--sf-depth-scale")),
+  );
+  expect(nearScale).toBeGreaterThan(0);
+  await debugToggle.click();
+  await page.screenshot({ path: "artifacts/phase1-studio-near.png", fullPage: true });
+
+  await debugToggle.click();
+  await viewport.click({
+    position: { x: bounds.width * 0.5, y: bounds.height * 0.14 },
+  });
+  await expect.poll(() => page.locator(".sf-debug-readout").innerText()).toContain("Foot Y 64.0%");
+  const farScale = await sprite.evaluate((element) =>
+    Number.parseFloat(getComputedStyle(element).getPropertyValue("--sf-depth-scale")),
+  );
+  expect(nearScale).toBeGreaterThan(farScale);
+  await debugToggle.click();
+  await page.screenshot({ path: "artifacts/phase1-studio-far.png", fullPage: true });
 });
 
 test("click movement remains within the walkable polygon and projects outside clicks", async ({ page }) => {
