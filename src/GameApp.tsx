@@ -182,8 +182,14 @@ export default function GameApp() {
   const handleViewportClick = (event: MouseEvent<HTMLElement>) => {
     if (activeHotspot || !viewportRef.current) return;
     const rect = viewportRef.current.getBoundingClientRect();
-    const x = ((event.clientX - rect.left) / rect.width) * 100;
-    const y = ((event.clientY - rect.top) / rect.height) * 100;
+    // Normalize against the content box, not the 1px CSS border box.
+    // This keeps the pointer aligned with the percentage-based scene overlays.
+    const contentLeft = rect.left + viewportRef.current.clientLeft;
+    const contentTop = rect.top + viewportRef.current.clientTop;
+    const contentWidth = viewportRef.current.clientWidth;
+    const contentHeight = viewportRef.current.clientHeight;
+    const x = ((event.clientX - contentLeft) / contentWidth) * 100;
+    const y = ((event.clientY - contentTop) / contentHeight) * 100;
     const target = projectToWalkableArea([x, y], STUDIO_SCENE.walkablePolygon);
 
     if (!pointInPolygon([x, y], STUDIO_SCENE.walkablePolygon)) {
