@@ -80,6 +80,12 @@ export const ITEMS: Record<string, InventoryItem> = {
     inspection:"سهراب نوشته است: «۱۳۵۹ کیلوهرتز، موج افتتاحیه؛ عددی که برای قفل‌های شخصی‌ام نگه می‌دارم.» این قرینه همراه عکس، رمز دریچه را توجیه می‌کند.",
     catalogueMark:"1359 kHz · HOME RADIO", icon:Radio, revealsClueId:"frequency-note-1359",
   },
+  "captain-logbook": {
+    id:"captain-logbook", title:"دفترچهٔ ناخدا منصور", shortName:"دفترچهٔ ناخدا", kind:"document",
+    description:"دفترچهٔ دخل‌وخرج و یادداشت‌های محمولهٔ ققنوس که پروانه برای مقایسه با ثبت‌های رسمی در اختیار آوا می‌گذارد.",
+    inspection:"چند ثبت بار و هزینه با زمان‌های گزارش‌شده در پرونده تفاوت دارند. این اختلاف‌ها باید با سند بندر و شهادت مستقل بررسی شوند؛ دفترچه به‌تنهایی نوع محموله یا مسئولیت شخص مشخصی را قطعی نمی‌کند.",
+    catalogueMark:"CAPTAIN · PHOENIX", icon:ClipboardList, revealsClueId:"captain-logbook-support",
+  },
   "poetry-book": {
     id:"poetry-book", title:"دفترچه شعر سهراب", shortName:"دفترچه شعر", kind:"document",
     description:"دفترچه‌ای کوچک از شعرها و یادداشت‌های کنار امواج دریا.",
