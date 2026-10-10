@@ -1,0 +1,289 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" role="img" aria-label="اتاق پخش رادیویی قدیمی در شبی بارانی">
+  <defs>
+    <linearGradient id="wall" x1="0" y1="0" x2="0.2" y2="1">
+      <stop offset="0" stop-color="#252c2a"/>
+      <stop offset=".44" stop-color="#34332c"/>
+      <stop offset="1" stop-color="#191f20"/>
+    </linearGradient>
+    <linearGradient id="ceiling" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#141a1b"/><stop offset="1" stop-color="#30302a"/>
+    </linearGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#40342a"/><stop offset=".35" stop-color="#2c2824"/><stop offset="1" stop-color="#14191a"/>
+    </linearGradient>
+    <linearGradient id="wood" x1="0" y1="0" x2="0.1" y2="1">
+      <stop stop-color="#59412e"/><stop offset=".5" stop-color="#392c23"/><stop offset="1" stop-color="#211f1c"/>
+    </linearGradient>
+    <linearGradient id="deskTop" x1="0" y1="0" x2="0.1" y2="1">
+      <stop stop-color="#725339"/><stop offset=".25" stop-color="#4e3929"/><stop offset="1" stop-color="#251f1b"/>
+    </linearGradient>
+    <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#7a817a"/><stop offset=".22" stop-color="#3e4744"/><stop offset=".72" stop-color="#222b2d"/><stop offset="1" stop-color="#10191c"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#46504b"/><stop offset=".5" stop-color="#202a2a"/><stop offset="1" stop-color="#111719"/>
+    </linearGradient>
+    <linearGradient id="night" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#101c2c"/><stop offset=".45" stop-color="#21343b"/><stop offset=".7" stop-color="#34403e"/><stop offset="1" stop-color="#101a1e"/>
+    </linearGradient>
+    <linearGradient id="lampGlow" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#f6d69a" stop-opacity=".65"/><stop offset="1" stop-color="#dda357" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="vignette">
+      <stop offset=".46" stop-color="#080c0f" stop-opacity="0"/>
+      <stop offset="1" stop-color="#05090d" stop-opacity=".76"/>
+    </radialGradient>
+    <filter id="grain" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency=".7" numOctaves="2" stitchTiles="stitch" result="noise"/>
+      <feColorMatrix in="noise" type="saturate" values="0" result="mono"/>
+      <feComponentTransfer><feFuncA type="table" tableValues="0 .16"/></feComponentTransfer>
+      <feBlend in="SourceGraphic" mode="soft-light"/>
+    </filter>
+    <filter id="softGlow" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur stdDeviation="24"/>
+    </filter>
+    <filter id="blur5"><feGaussianBlur stdDeviation="5"/></filter>
+    <pattern id="woodGrain" width="240" height="56" patternUnits="userSpaceOnUse">
+      <rect width="240" height="56" fill="url(#wood)"/>
+      <path d="M0 8 C50 3 80 17 130 9 S200 2 240 10 M0 31 C70 40 90 23 151 31 S200 38 240 27 M20 48 Q70 42 120 49 T240 45" fill="none" stroke="#a17b50" stroke-opacity=".14" stroke-width="2"/>
+      <path d="M0 16 H240 M0 39 H240" stroke="#080e0f" stroke-opacity=".22"/>
+    </pattern>
+    <clipPath id="windowClip"><rect x="1010" y="118" width="715" height="322" rx="3"/></clipPath>
+  </defs>
+
+  <!-- Old plaster walls and low ceiling -->
+  <rect width="1920" height="1080" fill="#111719"/>
+  <path d="M0 0H1920V770L0 710Z" fill="url(#wall)"/>
+  <path d="M0 0H1920L1770 84H126L0 122Z" fill="url(#ceiling)"/>
+  <path d="M0 121L1919 83" stroke="#85816c" stroke-opacity=".18" stroke-width="7"/>
+  <path d="M0 138L1919 101" stroke="#0b1011" stroke-opacity=".65" stroke-width="12"/>
+  <path d="M35 150Q82 210 45 280T68 423 M188 126Q155 210 183 295T165 421 M917 116Q878 175 910 228T891 341 M1832 117Q1780 180 1818 251T1798 400"
+        fill="none" stroke="#9e9772" stroke-opacity=".1" stroke-width="24"/>
+  <path d="M0 459Q130 441 248 475T471 460 M1330 466Q1450 433 1592 457T1920 432" fill="none" stroke="#090f11" stroke-opacity=".45" stroke-width="16"/>
+  <rect x="0" y="470" width="1920" height="330" fill="#000" opacity=".1"/>
+
+  <!-- Tall rain-streaked sea window -->
+  <rect x="994" y="101" width="748" height="352" fill="#151d1d" stroke="#0d1316" stroke-width="20"/>
+  <rect x="1008" y="115" width="720" height="326" fill="#65706b" stroke="#8a816b" stroke-opacity=".28" stroke-width="5"/>
+  <g clip-path="url(#windowClip)">
+    <rect x="1010" y="118" width="715" height="322" fill="url(#night)"/>
+    <path d="M1000 314Q1115 295 1232 317T1478 310T1750 322V450H1000Z" fill="#16272d"/>
+    <path d="M1000 352Q1130 335 1248 354T1481 348T1750 360" fill="none" stroke="#b4b6a2" stroke-opacity=".3" stroke-width="5"/>
+    <path d="M1000 380Q1125 361 1248 383T1481 377T1750 389M1000 414Q1150 403 1280 415T1530 410T1750 421" fill="none" stroke="#879d9a" stroke-opacity=".2" stroke-width="3"/>
+    <!-- Breakwater -->
+    <path d="M1010 350L1092 340 1155 350 1200 336 1270 350 1325 329 1403 343 1480 330 1564 345 1650 329 1732 346V450H1010Z" fill="#171e20"/>
+    <path d="M1025 357L1111 350 1154 360 1218 345 1274 361 1335 338 1414 354 1480 340 1569 355 1650 340 1734 355" fill="none" stroke="#6f766f" stroke-opacity=".33" stroke-width="4"/>
+    <!-- Distant lighthouse -->
+    <g transform="translate(1537 238)">
+      <path d="M-24 109L-15 9H16L26 109Z" fill="#9a9d91" fill-opacity=".5"/>
+      <rect x="-25" y="6" width="52" height="13" fill="#22282a"/>
+      <path d="M-19 5L0 -10 20 5Z" fill="#101719"/>
+      <rect x="-12" y="-5" width="24" height="12" fill="#f1cf88" fill-opacity=".88"/>
+      <path d="M-1 1L-250 -68 0 -4 215 -79Z" fill="#f7d999" fill-opacity=".14"/>
+      <circle cx="0" cy="2" r="6" fill="#fff0bf"/>
+    </g>
+    <!-- Rain on the glass -->
+    <g stroke="#c1d3d2" stroke-opacity=".23" stroke-width="2">
+      <path d="M1043 128l-15 64m46-54-13 47m101-48-17 79m42-75-8 44m70-59-16 72m95-67-10 48m78-59-14 65m41-12-10 53m62-91-18 88m89-71-9 40m50-65-19 80m48-21-12 54m-647 1-9 50m112-43-12 70m165-68-12 52m94-38-7 54m153-49-12 72m65-46-7 43"/>
+      <path d="M1071 220l-18 85m83-77-13 56m147-58-18 86m111-81-10 49m113-64-18 75m92-50-12 59m-522 20-12 56m102-45-7 44m142-42-11 56m108-38-9 48m136-30-11 60"/>
+    </g>
+    <rect x="1010" y="118" width="715" height="322" fill="#0b1619" opacity=".2"/>
+  </g>
+  <path d="M1247 116V441M1481 116V441M1008 279H1728" stroke="#171f20" stroke-width="18"/>
+  <path d="M1255 118V440M1488 118V440" stroke="#a4a18a" stroke-opacity=".18" stroke-width="3"/>
+  <path d="M1020 126H1718V433" fill="none" stroke="#c2a56f" stroke-opacity=".15" stroke-width="4"/>
+  <rect x="979" y="439" width="778" height="22" fill="#252a28" stroke="#13191a" stroke-width="7"/>
+  <path d="M990 457H1751" stroke="#a78a56" stroke-opacity=".3" stroke-width="4"/>
+
+  <!-- Door and old brass hardware -->
+  <g>
+    <rect x="50" y="227" width="254" height="466" fill="#121817" stroke="#0c1112" stroke-width="15"/>
+    <rect x="66" y="242" width="222" height="443" fill="url(#wood)" stroke="#92724b" stroke-opacity=".26" stroke-width="4"/>
+    <path d="M88 251V672M263 251V672M79 370H277M79 522H277" stroke="#171b19" stroke-width="11"/>
+    <path d="M98 261V660M250 261V660M87 382H270M87 532H270" stroke="#a18054" stroke-opacity=".17" stroke-width="3"/>
+    <rect x="235" y="436" width="24" height="72" rx="8" fill="#74603d" stroke="#c4a36d" stroke-opacity=".42" stroke-width="3"/>
+    <circle cx="247" cy="472" r="7" fill="#d4b274" fill-opacity=".75"/>
+    <path d="M61 225H294" stroke="#aa9269" stroke-opacity=".3" stroke-width="10"/>
+    <rect x="116" y="300" width="117" height="37" fill="#1a201e" stroke="#9d8356" stroke-opacity=".35"/>
+    <text x="174" y="325" font-family="serif" font-size="18" text-anchor="middle" fill="#bba982" letter-spacing="4">ARCHIVE</text>
+  </g>
+
+  <!-- Shelves of reel tapes -->
+  <g transform="translate(328 216)">
+    <rect width="320" height="353" fill="#151c1c" stroke="#0d1314" stroke-width="10"/>
+    <rect x="10" y="10" width="300" height="333" fill="url(#metal)"/>
+    <g stroke="#090e10" stroke-width="12">
+      <path d="M8 91H311M8 178H311M8 265H311"/>
+    </g>
+    <g stroke="#b4a17b" stroke-opacity=".35" stroke-width="2">
+      <path d="M8 87H311M8 174H311M8 261H311"/>
+    </g>
+    <g>
+      <g transform="translate(20 25)">
+        <rect width="48" height="47" rx="2" fill="#5c5140"/><circle cx="24" cy="23" r="17" fill="#252729" stroke="#b8a37a" stroke-width="3"/><circle cx="24" cy="23" r="5" fill="#b9a983"/>
+        <rect x="58" width="48" height="47" rx="2" fill="#6e6044"/><circle cx="82" cy="23" r="17" fill="#242729" stroke="#b6a57a" stroke-width="3"/><circle cx="82" cy="23" r="5" fill="#b9a983"/>
+        <rect x="116" width="48" height="47" rx="2" fill="#514a3c"/><circle cx="140" cy="23" r="17" fill="#242729" stroke="#a28e68" stroke-width="3"/><circle cx="140" cy="23" r="5" fill="#b9a983"/>
+        <rect x="174" width="48" height="47" rx="2" fill="#746546"/><circle cx="198" cy="23" r="17" fill="#242729" stroke="#ad9b73" stroke-width="3"/><circle cx="198" cy="23" r="5" fill="#b9a983"/>
+        <rect x="232" width="48" height="47" rx="2" fill="#5b513f"/><circle cx="256" cy="23" r="17" fill="#242729" stroke="#ab9973" stroke-width="3"/><circle cx="256" cy="23" r="5" fill="#b9a983"/>
+      </g>
+      <g transform="translate(20 112)">
+        <rect width="48" height="47" rx="2" fill="#79664d"/><circle cx="24" cy="23" r="17" fill="#242729" stroke="#b8a37a" stroke-width="3"/><circle cx="24" cy="23" r="5" fill="#b9a983"/>
+        <rect x="58" width="48" height="47" rx="2" fill="#615640"/><circle cx="82" cy="23" r="17" fill="#242729" stroke="#b6a57a" stroke-width="3"/><circle cx="82" cy="23" r="5" fill="#b9a983"/>
+        <rect x="116" width="48" height="47" rx="2" fill="#7c6b4d"/><circle cx="140" cy="23" r="17" fill="#242729" stroke="#a28e68" stroke-width="3"/><circle cx="140" cy="23" r="5" fill="#b9a983"/>
+        <rect x="174" width="48" height="47" rx="2" fill="#5f5947"/><circle cx="198" cy="23" r="17" fill="#242729" stroke="#ad9b73" stroke-width="3"/><circle cx="198" cy="23" r="5" fill="#b9a983"/>
+        <rect x="232" width="48" height="47" rx="2" fill="#766248"/><circle cx="256" cy="23" r="17" fill="#242729" stroke="#ab9973" stroke-width="3"/><circle cx="256" cy="23" r="5" fill="#b9a983"/>
+      </g>
+      <g transform="translate(20 199)">
+        <rect width="48" height="47" rx="2" fill="#655743"/><circle cx="24" cy="23" r="17" fill="#242729" stroke="#b8a37a" stroke-width="3"/><circle cx="24" cy="23" r="5" fill="#b9a983"/>
+        <rect x="58" width="48" height="47" rx="2" fill="#766547"/><circle cx="82" cy="23" r="17" fill="#242729" stroke="#b6a57a" stroke-width="3"/><circle cx="82" cy="23" r="5" fill="#b9a983"/>
+        <rect x="116" width="48" height="47" rx="2" fill="#5d523f"/><circle cx="140" cy="23" r="17" fill="#242729" stroke="#a28e68" stroke-width="3"/><circle cx="140" cy="23" r="5" fill="#b9a983"/>
+        <rect x="174" width="48" height="47" rx="2" fill="#77684c"/><circle cx="198" cy="23" r="17" fill="#242729" stroke="#ad9b73" stroke-width="3"/><circle cx="198" cy="23" r="5" fill="#b9a983"/>
+        <rect x="232" width="48" height="47" rx="2" fill="#625641"/><circle cx="256" cy="23" r="17" fill="#242729" stroke="#ab9973" stroke-width="3"/><circle cx="256" cy="23" r="5" fill="#b9a983"/>
+      </g>
+    </g>
+    <rect x="16" y="294" width="288" height="33" fill="#242b29"/>
+    <text x="160" y="316" text-anchor="middle" fill="#bdac86" font-family="serif" font-size="16" letter-spacing="2">ARCHIVE / 1378</text>
+  </g>
+
+  <!-- Shift board and pinned, damp papers -->
+  <g transform="translate(465 229)">
+    <rect x="-12" y="-12" width="410" height="237" fill="#141a19" stroke="#0a1011" stroke-width="9"/>
+    <rect width="386" height="213" fill="#72664d" stroke="#b09a69" stroke-opacity=".36" stroke-width="5"/>
+    <rect x="13" y="14" width="168" height="86" fill="#b5a37b" transform="rotate(-2 97 57)"/>
+    <rect x="192" y="21" width="171" height="86" fill="#b9aa86" transform="rotate(1.8 277 64)"/>
+    <rect x="26" y="112" width="163" height="82" fill="#c0b18c" transform="rotate(1 107 153)"/>
+    <rect x="201" y="118" width="162" height="76" fill="#a89b7a" transform="rotate(-2 281 156)"/>
+    <g stroke="#5a513f" stroke-opacity=".55" stroke-width="3">
+      <path d="M28 39H156M28 54H146M28 69H163M28 84H118"/>
+      <path d="M207 45H345M207 60H334M207 75H350M207 90H300"/>
+      <path d="M40 138H168M40 153H175M40 168H153M212 141H347M212 156H330M212 171H342"/>
+    </g>
+    <path d="M218 157H304" stroke="#324f68" stroke-width="5"/>
+    <circle cx="24" cy="20" r="7" fill="#8f3330"/><circle cx="350" cy="25" r="7" fill="#9b3b34"/>
+    <circle cx="39" cy="119" r="7" fill="#9b3b34"/><circle cx="350" cy="190" r="7" fill="#8f3330"/>
+    <text x="191" y="-25" fill="#baaa83" font-family="serif" font-size="18" letter-spacing="3" text-anchor="middle">SHIFT / 23 ABAN</text>
+  </g>
+
+  <!-- Main console cabinet -->
+  <g>
+    <path d="M412 585L1436 553 1534 651 474 697Z" fill="#151c1d" stroke="#0c1213" stroke-width="12"/>
+    <path d="M431 567L1433 535 1518 613 477 657Z" fill="url(#deskTop)" stroke="#161b1b" stroke-width="10"/>
+    <path d="M477 657L1518 613 1505 731 481 774Z" fill="url(#wood)" stroke="#0f1516" stroke-width="12"/>
+    <path d="M504 679L1492 638M502 719L1490 679M505 755L1486 716" stroke="#a48152" stroke-opacity=".12" stroke-width="4"/>
+    <path d="M493 766L1510 724" stroke="#b28c58" stroke-opacity=".23" stroke-width="5"/>
+    <!-- Drawer hardware -->
+    <g fill="#65543a" stroke="#c3a26d" stroke-opacity=".36" stroke-width="3">
+      <rect x="550" y="690" width="46" height="9" rx="4" transform="rotate(-2 550 690)"/>
+      <rect x="775" y="681" width="46" height="9" rx="4" transform="rotate(-2 775 681)"/>
+      <rect x="1001" y="671" width="46" height="9" rx="4" transform="rotate(-2 1001 671)"/>
+      <rect x="1231" y="661" width="46" height="9" rx="4" transform="rotate(-2 1231 661)"/>
+    </g>
+  </g>
+
+  <!-- Tape deck, two reels and control panel -->
+  <g transform="translate(925 390)">
+    <ellipse cx="207" cy="191" rx="246" ry="25" fill="#0b1112" opacity=".68" filter="url(#blur5)"/>
+    <path d="M0 53L399 37 447 71 38 98Z" fill="#101719" stroke="#0c1113" stroke-width="9"/>
+    <path d="M38 98L447 71 440 203 37 228Z" fill="url(#metal)" stroke="#101719" stroke-width="10"/>
+    <path d="M52 113L428 91" stroke="#b9ad8d" stroke-opacity=".22" stroke-width="3"/>
+    <rect x="58" y="117" width="355" height="73" rx="5" fill="#202a2c" stroke="#768078" stroke-opacity=".44" stroke-width="4"/>
+    <rect x="74" y="130" width="93" height="48" rx="3" fill="#0d191a" stroke="#5d6d65" stroke-width="4"/>
+    <rect x="178" y="130" width="93" height="48" rx="3" fill="#0d191a" stroke="#5d6d65" stroke-width="4"/>
+    <rect x="283" y="130" width="112" height="48" rx="3" fill="#10191a" stroke="#5d6d65" stroke-width="4"/>
+    <g transform="translate(121 154)">
+      <circle r="25" fill="#222627" stroke="#b7a37a" stroke-width="5"/>
+      <circle r="18" fill="none" stroke="#8a7a5a" stroke-width="4"/>
+      <circle r="5" fill="#a39a81"/>
+      <path d="M-15 -14L-3 -5M16 -11L5 -3M8 16L2 4" stroke="#d0be93" stroke-width="4"/>
+    </g>
+    <g transform="translate(225 154)">
+      <circle r="25" fill="#222627" stroke="#b7a37a" stroke-width="5"/>
+      <circle r="18" fill="none" stroke="#8a7a5a" stroke-width="4"/>
+      <circle r="5" fill="#a39a81"/>
+      <path d="M-15 -14L-3 -5M16 -11L5 -3M8 16L2 4" stroke="#d0be93" stroke-width="4"/>
+    </g>
+    <g transform="translate(310 151)">
+      <circle r="14" fill="#131919" stroke="#948668" stroke-width="4"/>
+      <path d="M0 0L7 -8" stroke="#e4d1a0" stroke-width="3"/>
+      <circle cx="39" cy="0" r="14" fill="#131919" stroke="#948668" stroke-width="4"/>
+      <path d="M39 0L46 -8" stroke="#e4d1a0" stroke-width="3"/>
+    </g>
+    <rect x="75" y="198" width="305" height="12" fill="#0f1516"/>
+    <g fill="#d2bd8b">
+      <circle cx="90" cy="203" r="4"/><circle cx="114" cy="203" r="4"/><circle cx="138" cy="203" r="4"/>
+      <circle cx="162" cy="203" r="4"/><circle cx="186" cy="203" r="4"/><circle cx="210" cy="203" r="4"/>
+      <circle cx="234" cy="203" r="4"/><circle cx="258" cy="203" r="4"/><circle cx="282" cy="203" r="4"/>
+    </g>
+    <rect x="110" y="219" width="240" height="6" fill="#0d1213"/>
+    <text x="225" y="254" text-anchor="middle" fill="#b7a27d" font-family="serif" font-size="19" letter-spacing="4">REVOX / B77</text>
+    <rect x="12" y="70" width="22" height="19" fill="#ba9d6b"/>
+    <circle cx="23" cy="79" r="5" fill="#d3bd88"/>
+  </g>
+
+  <!-- Desk lamp and its amber pool of light -->
+  <g>
+    <ellipse cx="793" cy="484" rx="185" ry="91" fill="#e4ad5d" opacity=".08" filter="url(#softGlow)"/>
+    <path d="M775 487L827 401 862 405 830 490" fill="#252c2a" stroke="#0c1214" stroke-width="8"/>
+    <path d="M817 402L788 360" stroke="#a58b5d" stroke-width="12" stroke-linecap="round"/>
+    <path d="M758 355Q810 331 864 361L837 398Q802 410 772 393Z" fill="#313e3a" stroke="#0c1214" stroke-width="9"/>
+    <path d="M771 386Q809 399 846 388L827 431Q805 440 786 422Z" fill="#d9b26f"/>
+    <path d="M788 422L829 430 871 561 745 567Z" fill="url(#lampGlow)" opacity=".58"/>
+    <rect x="770" y="489" width="93" height="13" rx="5" fill="#1a201f"/>
+  </g>
+
+  <!-- Tool cabinet on the right -->
+  <g transform="translate(1510 328)">
+    <rect x="0" y="0" width="239" height="323" fill="#111819" stroke="#090f11" stroke-width="11"/>
+    <rect x="11" y="11" width="217" height="301" fill="url(#metal)" stroke="#64706b" stroke-opacity=".26" stroke-width="5"/>
+    <path d="M14 107H225M14 207H225" stroke="#111819" stroke-width="11"/>
+    <rect x="28" y="31" width="182" height="62" fill="#222c2b" stroke="#111719" stroke-width="4"/>
+    <rect x="28" y="129" width="182" height="62" fill="#242d2b" stroke="#111719" stroke-width="4"/>
+    <rect x="28" y="229" width="182" height="62" fill="#202827" stroke="#111719" stroke-width="4"/>
+    <g fill="#9f8b60" stroke="#c4ae7b" stroke-opacity=".28" stroke-width="3">
+      <rect x="85" y="57" width="67" height="8" rx="4"/>
+      <rect x="85" y="155" width="67" height="8" rx="4"/>
+      <rect x="85" y="255" width="67" height="8" rx="4"/>
+    </g>
+    <text x="118" y="-18" fill="#b9a57f" font-family="serif" font-size="16" text-anchor="middle" letter-spacing="3">TOOLS</text>
+  </g>
+
+  <!-- Floor plane with perspective plank seams -->
+  <path d="M0 721L1920 657V1080H0Z" fill="url(#floor)"/>
+  <path d="M0 756L1920 688M0 805L1920 735M0 866L1920 786M0 937L1920 844M0 1019L1920 911" fill="none" stroke="#a28358" stroke-opacity=".17" stroke-width="4"/>
+  <path d="M160 717L0 1080M435 709L295 1080M715 700L675 1080M1005 690L1040 1080M1290 680L1410 1080M1570 671L1770 1080M1800 664L1920 934" fill="none" stroke="#080e10" stroke-opacity=".38" stroke-width="7"/>
+  <path d="M0 770L1920 705M0 902L1920 818M0 1044L1920 930" fill="none" stroke="#c2a071" stroke-opacity=".05" stroke-width="12"/>
+
+  <!-- Worn rug in front of the console -->
+  <g>
+    <path d="M788 777L1227 762 1304 915 731 950Z" fill="#352b2b" stroke="#786146" stroke-opacity=".6" stroke-width="7"/>
+    <path d="M808 790L1207 778 1274 905 754 933Z" fill="#4a2929" stroke="#b18a57" stroke-opacity=".32" stroke-width="4"/>
+    <path d="M829 807L1189 796 1246 891 778 917Z" fill="none" stroke="#a78350" stroke-opacity=".36" stroke-width="4"/>
+    <path d="M847 823L1174 812 1217 878 802 901Z" fill="none" stroke="#201b1b" stroke-width="8"/>
+    <path d="M1018 814L1032 902M877 863L1167 853" stroke="#b18a57" stroke-opacity=".2" stroke-width="3"/>
+  </g>
+
+  <!-- Small papers and an abandoned tea glass on the desk -->
+  <g>
+    <path d="M655 545L738 542 752 587 670 594Z" fill="#afa17f" transform="rotate(-3 700 567)"/>
+    <path d="M668 553L728 550M672 562L737 559M677 572L723 569" stroke="#665b46" stroke-opacity=".6" stroke-width="2"/>
+    <g transform="translate(1390 514)">
+      <ellipse cx="0" cy="22" rx="27" ry="9" fill="#111516" opacity=".6"/>
+      <path d="M-18 -3L-14 18Q0 28 14 18L18 -3Z" fill="#c9d4ce" fill-opacity=".12" stroke="#d1c49c" stroke-opacity=".55" stroke-width="3"/>
+      <ellipse cx="0" cy="-3" rx="18" ry="6" fill="#d4c9ad" fill-opacity=".45" stroke="#d8c79b" stroke-opacity=".7" stroke-width="3"/>
+      <path d="M18 1Q39 -4 28 13L16 13" fill="none" stroke="#c9b992" stroke-opacity=".55" stroke-width="4"/>
+      <path d="M-8 2L8 2" stroke="#594638" stroke-width="3"/>
+    </g>
+    <rect x="875" y="527" width="37" height="21" rx="4" fill="#25302f" stroke="#9a8b64" stroke-opacity=".45" stroke-width="3" transform="rotate(-6 875 527)"/>
+    <circle cx="893" cy="537" r="5" fill="#caa15c"/>
+  </g>
+
+  <!-- Atmospheric wear, dust and cinematic vignette -->
+  <g fill="#d5c4a0" opacity=".15">
+    <circle cx="695" cy="285" r="2"/><circle cx="724" cy="312" r="3"/><circle cx="877" cy="268" r="2"/>
+    <circle cx="923" cy="336" r="2"/><circle cx="812" cy="294" r="2"/><circle cx="1387" cy="480" r="3"/>
+    <circle cx="1442" cy="455" r="2"/><circle cx="679" cy="432" r="2"/><circle cx="617" cy="465" r="3"/>
+  </g>
+  <rect width="1920" height="1080" fill="url(#vignette)"/>
+  <rect width="1920" height="1080" fill="#b39b75" opacity=".12" filter="url(#grain)"/>
+  <path d="M0 0H1920V1080H0Z" fill="none" stroke="#090e10" stroke-width="22"/>
+</svg>
