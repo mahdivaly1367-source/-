@@ -13,6 +13,8 @@ import {
   RadioTower,
   X,
   Zap,
+  Volume2,
+  VolumeX,
 } from "lucide-react";
 import { type SceneHotspot, type SceneId } from "./data/scenes/studio";
 import { SCENES } from "./data/scenes";
@@ -33,6 +35,7 @@ import { DialogueOverlay } from "./components/ui/DialogueOverlay";
 import { ITEMS } from "./data/items";
 import { CLUES } from "./data/clues";
 import { TAPE13_DIALOGUE } from "./data/dialogues";
+import { AmbientSoundscape } from "./engine/audio/AmbientSoundscape";
 import "./game.css";
 
 const STARTING_SCENE_ID: SceneId = "scene_exterior";
@@ -49,6 +52,8 @@ export default function GameApp() {
   const [activeHotspot, setActiveHotspot] = useState<SceneHotspot | null>(null);
   const [hoveredHotspotId, setHoveredHotspotId] = useState<string | null>(null);
   const [debugMode, setDebugMode] = useState(false);
+  const [ambienceEnabled, setAmbienceEnabled] = useState(false);
+  const ambienceRef = useRef<AmbientSoundscape | null>(null);
   const [status, setStatus] = useState("اتاق را بررسی کن؛ نوار سیزدهم در اینونتوری است و سرنخ‌ها در دفترچه ثبت می‌شوند.");
   const [inventoryIds, setInventoryIds] = useState<string[]>(["tape-13"]);
   const [discoveredClueIds, setDiscoveredClueIds] = useState<string[]>([]);
@@ -75,6 +80,33 @@ export default function GameApp() {
   const [journalOpen, setJournalOpen] = useState(false);
   const [selectedItemForUse, setSelectedItemForUse] = useState<string | null>(null);
   const viewportRef = useRef<HTMLElement | null>(null);
+
+  const toggleAmbience = useCallback(async () => {
+    if (ambienceEnabled) {
+      setAmbienceEnabled(false);
+      void ambienceRef.current?.stop();
+      setStatus("صدای محیط خاموش شد.");
+      return;
+    }
+
+    const soundscape = ambienceRef.current ?? new AmbientSoundscape();
+    ambienceRef.current = soundscape;
+    try {
+      await soundscape.start(currentSceneId);
+      setAmbienceEnabled(true);
+      setStatus("صدای محیط فعال شد؛ با تغییر لوکیشن، بافت صوتی هم تغییر می‌کند.");
+    } catch {
+      setStatus("صدای محیط در این مرورگر در دسترس نیست؛ بازی بدون صدا ادامه دارد.");
+    }
+  }, [ambienceEnabled, currentSceneId]);
+
+  useEffect(() => {
+    if (ambienceEnabled) ambienceRef.current?.setScene(currentSceneId);
+  }, [ambienceEnabled, currentSceneId]);
+
+  useEffect(() => () => {
+    void ambienceRef.current?.dispose();
+  }, []);
 
   const moveTo = useCallback((rawTarget: Point, onArrive?: () => void) => {
     const target = projectToWalkableArea(rawTarget, currentScene.walkablePolygon);
@@ -332,7 +364,7 @@ export default function GameApp() {
           </div>
         </div>
         <div className="sf-topbar__right">
-          <span className="sf-phase-badge"><span /> پردهٔ روایی · فاز ۴</span>
+          <span className="sf-phase-badge"><span /> فضاسازی محیطی · فاز ۵</span>
           <span className="sf-scene-name">{currentScene.title}</span>
           <a className="sf-docs-link" href="?view=docs" title="باز کردن میز مستندات" aria-label="باز کردن میز مستندات">
             <BookOpen size={17} /> مستندات
@@ -351,6 +383,7 @@ export default function GameApp() {
           <div className="sf-window-haze" aria-hidden="true" />
           <div className="sf-rain-glass" aria-hidden="true" />
           <div className="sf-vignette" aria-hidden="true" />
+          <div className={`sf-atmosphere sf-atmosphere--${currentSceneId}`} aria-hidden="true" />
 
           <div className="sf-scene-label">
             <span className="sf-scene-label__eyebrow">بندر مه‌آب · ۲۳ آبان ۱۳۷۸</span>
@@ -447,7 +480,19 @@ export default function GameApp() {
           <span><Keyboard size={14} /> <kbd>Esc</kbd> بستن پنجره</span>
           <button
             type="button"
-            className={debugMode ? "sf-debug-toggle sf-debug-toggle--active" : "sf-debug-toggle"}
+            className={ambienceEnabled ? "sf-ambience-toggle sf-ambience-toggle--active" : "sf-ambience-toggle"}
+            onClick={toggleAmbience}
+            aria-pressed={ambienceEnabled}
+            aria-label={ambienceEnabled ? "خاموش کردن صدای محیط" : "فعال کردن صدای محیط"}
+            data-testid="ambience-toggle"
+            title="صدای محیط به‌صورت اختیاری و بدون فایل خارجی تولید می‌شود"
+          >
+            {ambienceEnabled ? <Volume2 size={14} /> : <VolumeX size={14} />}
+            {ambienceEnabled ? "صدای محیط: روشن" : "صدای محیط"}
+          </button>
+          <button
+            type="button"
+            className={debugMode ? "sf-debug-toggle sf-debug-toggle--active" : "sf-debug-toggle"
             onClick={() => setDebugMode((value) => !value)}
             aria-pressed={debugMode}
           >

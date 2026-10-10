@@ -718,3 +718,137 @@
 .sf-ending__credits strong{font-size:18px;letter-spacing:.1em;color:#e5c78b}
 .sf-ending__credits span{font-size:11px;color:#b3b7a8}
 .sf-ending__credits small{margin-top:6px;font-size:9px;line-height:1.8;color:#808c80}
+
+
+/* Phase 5: low-cost atmosphere layers; hotspots, sprites and UI stay on top. */
+.sf-atmosphere {
+  position: absolute;
+  z-index: 3;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  isolation: isolate;
+}
+.sf-atmosphere::before,
+.sf-atmosphere::after {
+  content: "";
+  position: absolute;
+  inset: -8%;
+  pointer-events: none;
+  will-change: opacity, transform, background-position;
+}
+.sf-atmosphere--scene_exterior::before,
+.sf-atmosphere--scene_pier::before,
+.sf-atmosphere--scene_lighthouse::before {
+  opacity: .2;
+  background-image: repeating-linear-gradient(103deg, transparent 0 17px, rgba(204, 222, 225, .34) 18px, transparent 19px 39px);
+  animation: sf-rain-slide 1.65s linear infinite;
+  mix-blend-mode: screen;
+}
+.sf-atmosphere--scene_exterior::after {
+  opacity: .42;
+  background:
+    radial-gradient(ellipse at 12% 84%, rgba(151, 181, 180, .23), transparent 38%),
+    radial-gradient(ellipse at 86% 81%, rgba(148, 167, 164, .19), transparent 33%),
+    linear-gradient(180deg, transparent 52%, rgba(164, 184, 184, .07));
+  animation: sf-atmosphere-drift 17s ease-in-out infinite alternate;
+}
+.sf-atmosphere--scene_studio::before {
+  opacity: .28;
+  background-image:
+    radial-gradient(circle at 17% 37%, rgba(243, 209, 139, .36) 0 1px, transparent 1.8px),
+    radial-gradient(circle at 61% 19%, rgba(230, 218, 174, .24) 0 1px, transparent 2px),
+    radial-gradient(circle at 76% 55%, rgba(244, 211, 142, .28) 0 1.3px, transparent 2px),
+    radial-gradient(circle at 35% 71%, rgba(230, 218, 174, .2) 0 1px, transparent 2px);
+  background-size: 160px 130px, 210px 180px, 240px 190px, 185px 160px;
+  animation: sf-atmosphere-drift 22s ease-in-out infinite alternate;
+}
+.sf-atmosphere--scene_studio::after {
+  opacity: .13;
+  background: radial-gradient(ellipse at 50% 25%, rgba(255, 202, 112, .15), transparent 50%);
+  animation: sf-lamp-breath 7s ease-in-out infinite alternate;
+}
+.sf-atmosphere--scene_archive::before {
+  opacity: .2;
+  background-image:
+    radial-gradient(circle at 21% 35%, rgba(224, 195, 136, .29) 0 1px, transparent 2px),
+    radial-gradient(circle at 58% 62%, rgba(224, 195, 136, .2) 0 1px, transparent 2px),
+    radial-gradient(circle at 82% 25%, rgba(224, 195, 136, .21) 0 1px, transparent 2px);
+  background-size: 190px 170px, 230px 210px, 270px 190px;
+  animation: sf-atmosphere-drift 26s ease-in-out infinite alternate;
+}
+.sf-atmosphere--scene_archive::after {
+  opacity: .065;
+  background: rgba(219, 229, 202, .4);
+  animation: sf-fluorescent-flicker 8.5s steps(1, end) infinite;
+}
+.sf-atmosphere--scene_pier::after {
+  opacity: .34;
+  background:
+    radial-gradient(ellipse at 5% 85%, rgba(183, 206, 207, .22), transparent 30%),
+    radial-gradient(ellipse at 72% 77%, rgba(168, 192, 192, .14), transparent 36%);
+  animation: sf-atmosphere-drift 14s ease-in-out infinite alternate;
+}
+.sf-atmosphere--scene_lighthouse::after {
+  opacity: .3;
+  inset: -38%;
+  background: conic-gradient(from 0deg at 70% 42%, transparent 0deg 286deg, rgba(255, 242, 184, .015) 296deg, rgba(255, 238, 168, .13) 304deg, transparent 316deg);
+  transform-origin: 70% 42%;
+  animation: sf-lighthouse-sweep 18s linear infinite;
+  mix-blend-mode: screen;
+}
+.sf-atmosphere--scene_homestead::before {
+  opacity: .32;
+  background: radial-gradient(ellipse at 77% 43%, rgba(255, 172, 73, .19), transparent 38%);
+  animation: sf-lamp-breath 5s ease-in-out infinite alternate;
+}
+.sf-atmosphere--scene_homestead::after {
+  opacity: .15;
+  background-image: radial-gradient(circle at 26% 73%, rgba(231, 194, 124, .25) 0 1px, transparent 2px);
+  background-size: 210px 190px;
+  animation: sf-atmosphere-drift 24s ease-in-out infinite alternate;
+}
+@keyframes sf-atmosphere-drift {
+  from { transform: translate3d(-1.2%, .6%, 0); }
+  to { transform: translate3d(1.4%, -1%, 0); }
+}
+@keyframes sf-lamp-breath {
+  from { opacity: .08; }
+  to { opacity: .3; }
+}
+@keyframes sf-fluorescent-flicker {
+  0%, 10%, 23%, 48%, 76%, 100% { opacity: .02; }
+  11%, 49%, 77% { opacity: .085; }
+  24% { opacity: .04; }
+}
+@keyframes sf-lighthouse-sweep {
+  from { transform: rotate(-12deg); }
+  to { transform: rotate(348deg); }
+}
+.sf-ambience-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid rgba(199, 183, 148, .18);
+  border-radius: 5px;
+  padding: 6px 9px;
+  background: rgba(255, 255, 255, .025);
+  color: #adafa6;
+  font-family: inherit;
+  font-size: 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 150ms ease, color 150ms ease, background 150ms ease;
+}
+.sf-ambience-toggle svg { color: #bca273; }
+.sf-ambience-toggle:hover,
+.sf-ambience-toggle--active {
+  border-color: rgba(109, 209, 162, .45);
+  color: #bfe8d1;
+  background: rgba(80, 162, 120, .08);
+}
+.sf-ambience-toggle--active svg { color: #a1e4bd; }
+@media (prefers-reduced-motion: reduce) {
+  .sf-atmosphere::before,
+  .sf-atmosphere::after { animation: none !important; }
+}
