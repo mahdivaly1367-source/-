@@ -1,5 +1,6 @@
 import { mkdir } from "node:fs/promises";
 import { expect, test, type Page } from "@playwright/test";
+import { enterStudio } from "./helpers";
 
 async function expectDebugPercent(page: Page, label: string, expected: number) {
   await expect.poll(async () => {
@@ -10,7 +11,7 @@ async function expectDebugPercent(page: Page, label: string, expected: number) {
 }
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/");
+  await enterStudio(page);
 });
 
 test("capture the rendered studio and verify the character sprite foot origin", async ({ page }) => {

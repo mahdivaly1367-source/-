@@ -1,7 +1,8 @@
 import { expect, test } from "@playwright/test";
+import { enterStudio } from "./helpers";
 
 test.beforeEach(async ({ page }) => {
-  await page.goto("/");
+  await enterStudio(page);
 });
 
 test("phase 2: collecting a fuse adds it to inventory and opens a detailed inspection", async ({ page }) => {

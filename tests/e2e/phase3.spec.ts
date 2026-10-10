@@ -1,5 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
+import { enterStudio } from "./helpers";
 async function openDesk(page: Page) {
+  await enterStudio(page);
   await page.getByRole("button", { name: "کمد ابزار الکترونیک" }).click();
   const cabinet = page.getByRole("dialog");
   await cabinet.getByRole("button", { name: /برداشتن فیوز یدکی ۲ آمپر/ }).click();
