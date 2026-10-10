@@ -126,6 +126,7 @@ export default function GameApp() {
     if (!item) return;
     setActiveHotspot(null);
     setJournalOpen(false);
+    setSelectedItemForUse(null);
     setActiveItemId(itemId);
     if (item.revealsClueId) recordClue(item.revealsClueId);
   }, [recordClue]);

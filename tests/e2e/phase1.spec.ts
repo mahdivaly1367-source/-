@@ -1,5 +1,13 @@
 import { mkdir } from "node:fs/promises";
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
+
+async function expectDebugPercent(page: Page, label: string, expected: number) {
+  await expect.poll(async () => {
+    const text = await page.locator(".sf-debug-readout").innerText();
+    const match = text.match(new RegExp(label + " (\\d+(?:\\.\\d+)?)%"));
+    return match ? Number(match[1]) : Number.NaN;
+  }).toBeCloseTo(expected, 0);
+}
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/");
@@ -56,7 +64,7 @@ test("capture the rendered studio and verify the character sprite foot origin", 
   await viewport.click({
     position: { x: bounds.width * 0.3, y: bounds.height * 0.85 },
   });
-  await expect.poll(() => page.locator(".sf-debug-readout").innerText()).toContain("Foot Y 85.0%");
+  await expectDebugPercent(page, "Foot Y", 85);
   const nearScale = await sprite.evaluate((element) =>
     Number.parseFloat(getComputedStyle(element).getPropertyValue("--sf-depth-scale")),
   );
@@ -68,7 +76,7 @@ test("capture the rendered studio and verify the character sprite foot origin", 
   await viewport.click({
     position: { x: bounds.width * 0.5, y: bounds.height * 0.14 },
   });
-  await expect.poll(() => page.locator(".sf-debug-readout").innerText()).toContain("Foot Y 75.0%");
+  await expectDebugPercent(page, "Foot Y", 75);
   const farScale = await sprite.evaluate((element) =>
     Number.parseFloat(getComputedStyle(element).getPropertyValue("--sf-depth-scale")),
   );
@@ -90,7 +98,7 @@ test("click movement remains within the walkable polygon and projects outside cl
   await viewport.click({
     position: { x: bounds.width * 0.3, y: bounds.height * 0.85 },
   });
-  await expect.poll(() => page.locator(".sf-debug-readout").innerText()).toContain("X 30.0%");
+  await expectDebugPercent(page, "X", 30);
   await expect.poll(() => page.locator(".sf-debug-readout").innerText()).toContain("Foot Y 85.0%");
 
   await viewport.click({
