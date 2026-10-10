@@ -95,6 +95,13 @@
   <rect x="979" y="439" width="778" height="22" fill="#252a28" stroke="#13191a" stroke-width="7"/>
   <path d="M990 457H1751" stroke="#a78a56" stroke-opacity=".3" stroke-width="4"/>
 
+  <!-- Floor plane with perspective plank seams -->
+  <path d="M0 721L1920 657V1080H0Z" fill="url(#floor)"/>
+  <path d="M0 756L1920 688M0 805L1920 735M0 866L1920 786M0 937L1920 844M0 1019L1920 911" fill="none" stroke="#a28358" stroke-opacity=".17" stroke-width="4"/>
+  <path d="M160 717L0 1080M435 709L295 1080M715 700L675 1080M1005 690L1040 1080M1290 680L1410 1080M1570 671L1770 1080M1800 664L1920 934" fill="none" stroke="#080e10" stroke-opacity=".38" stroke-width="7"/>
+  <path d="M0 770L1920 705M0 902L1920 818M0 1044L1920 930" fill="none" stroke="#c2a071" stroke-opacity=".05" stroke-width="12"/>
+
+
   <!-- Door and old brass hardware -->
   <g>
     <rect x="50" y="227" width="254" height="466" fill="#121817" stroke="#0c1112" stroke-width="15"/>
@@ -246,12 +253,6 @@
     </g>
     <text x="118" y="-18" fill="#b9a57f" font-family="serif" font-size="16" text-anchor="middle" letter-spacing="3">TOOLS</text>
   </g>
-
-  <!-- Floor plane with perspective plank seams -->
-  <path d="M0 721L1920 657V1080H0Z" fill="url(#floor)"/>
-  <path d="M0 756L1920 688M0 805L1920 735M0 866L1920 786M0 937L1920 844M0 1019L1920 911" fill="none" stroke="#a28358" stroke-opacity=".17" stroke-width="4"/>
-  <path d="M160 717L0 1080M435 709L295 1080M715 700L675 1080M1005 690L1040 1080M1290 680L1410 1080M1570 671L1770 1080M1800 664L1920 934" fill="none" stroke="#080e10" stroke-opacity=".38" stroke-width="7"/>
-  <path d="M0 770L1920 705M0 902L1920 818M0 1044L1920 930" fill="none" stroke="#c2a071" stroke-opacity=".05" stroke-width="12"/>
 
   <!-- Worn rug in front of the console -->
   <g>
