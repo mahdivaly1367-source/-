@@ -16,7 +16,7 @@ test("capture the rendered studio and verify the character sprite foot origin", 
   const origin = await sprite.evaluate((element) => {
     const rect = element.getBoundingClientRect();
     const style = getComputedStyle(element);
-    const parts = style.transformOrigin.split(" ").map(Number);
+    const parts = style.transformOrigin.split(" ").map((value) => Number.parseFloat(value));
     return {
       width: rect.width,
       height: rect.height,
