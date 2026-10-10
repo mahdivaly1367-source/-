@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" role="img" aria-label="چهار فریم راه رفتن آوا راد">
+  <defs>
+    <linearGradient id="coat" x1="0" y1="0" x2="1" y2="0">
+      <stop stop-color="#26342b"/><stop offset=".28" stop-color="#536047"/><stop offset=".56" stop-color="#374436"/><stop offset="1" stop-color="#1e2925"/>
+    </linearGradient>
+    <linearGradient id="coatLight" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#687355"/><stop offset="1" stop-color="#273329"/>
+    </linearGradient>
+    <linearGradient id="scarf" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#bbb9ad"/><stop offset=".5" stop-color="#777c78"/><stop offset="1" stop-color="#414b49"/>
+    </linearGradient>
+    <linearGradient id="skin" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#d5b49a"/><stop offset=".55" stop-color="#b88f72"/><stop offset="1" stop-color="#795a49"/>
+    </linearGradient>
+    <linearGradient id="hair" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#282423"/><stop offset=".5" stop-color="#141718"/><stop offset="1" stop-color="#080d0f"/>
+    </linearGradient>
+    <linearGradient id="boots" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#6d5140"/><stop offset=".6" stop-color="#35271f"/><stop offset="1" stop-color="#181817"/>
+    </linearGradient>
+  </defs>
+  <g id="frame1" transform="translate(0 0)">
+    <ellipse cx="101" cy="408" rx="43" ry="7" fill="#05090a" opacity=".38"/>
+    <path d="M75 294L69 354 60 391Q60 402 74 402H94Q101 399 97 388L101 342 113 303Z" fill="url(#coat)"/>
+    <path d="M111 299L124 347 137 388Q141 399 154 395L168 388 156 365 148 336 145 296Z" fill="url(#coat)"/>
+    <path d="M65 385L59 398Q58 406 73 406L96 406Q105 403 97 395L88 385Z" fill="url(#boots)" stroke="#151718" stroke-width="3"/>
+    <path d="M136 381L136 395Q144 402 157 396L174 388 166 379 152 386Z" fill="url(#boots)" stroke="#151718" stroke-width="3"/>
+    <path d="M69 115Q84 103 111 108L139 127 147 188 141 290Q108 311 63 292L57 194Z" fill="url(#coat)" stroke="#222d25" stroke-width="4"/>
+    <path d="M69 125L100 151 95 289 66 287 60 193Z" fill="url(#coatLight)" opacity=".75"/>
+    <path d="M109 143L135 131 141 195 134 275 113 274Z" fill="#18231f" opacity=".68"/>
+    <path d="M80 123L91 145 106 157 122 141 137 129 127 116 88 114Z" fill="url(#scarf)" stroke="#343d3a" stroke-width="3"/>
+    <path d="M93 144L109 161 117 199 104 218 97 184 84 162Z" fill="url(#scarf)"/>
+    <path d="M68 127Q53 139 49 181L39 218Q40 232 51 231L63 222 80 174 89 147Z" fill="url(#coat)" stroke="#202922" stroke-width="4"/>
+    <path d="M132 130Q147 141 154 175L165 213Q165 225 154 230L143 217 129 180 121 150Z" fill="url(#coatLight)" stroke="#202922" stroke-width="4"/>
+    <path d="M43 216Q39 229 47 236L58 236 66 221 61 211Z" fill="url(#skin)"/>
+    <path d="M151 216Q150 230 159 235L169 230 166 215Z" fill="url(#skin)"/>
+    <path d="M86 82Q82 55 101 44Q127 39 140 60L138 85 127 106 99 105Z" fill="url(#skin)" stroke="#684d3f" stroke-width="3"/>
+    <path d="M82 79Q72 45 99 31Q123 20 143 42L151 71 138 83 133 55Q118 37 97 55L93 88Z" fill="url(#hair)"/>
+    <path d="M126 63Q148 67 143 92L130 109 124 98 133 80Z" fill="url(#hair)"/>
+    <path d="M135 74L147 80 138 86Z" fill="url(#skin)"/>
+    <path d="M96 60Q108 55 118 59" fill="none" stroke="#252323" stroke-width="4"/>
+    <path d="M95 94Q111 103 129 92L126 109 103 115Z" fill="url(#scarf)"/>
+    <path d="M72 175L91 193M132 176L145 198" stroke="#a5a48c" stroke-opacity=".25" stroke-width="4"/>
+    <path d="M108 167L109 252" stroke="#c3b99a" stroke-opacity=".52" stroke-width="3"/>
+    <circle cx="109" cy="189" r="3" fill="#c8b58c"/><circle cx="109" cy="218" r="3" fill="#c8b58c"/><circle cx="108" cy="248" r="3" fill="#c8b58c"/>
+    <path d="M63 294Q105 310 141 290L140 302Q104 324 63 305Z" fill="#161f1b"/>
+  </g>
+  <g id="frame2" transform="translate(200 0)">
+    <ellipse cx="101" cy="408" rx="43" ry="7" fill="#05090a" opacity=".38"/>
+    <path d="M71 295L53 344 39 381Q37 393 48 399L64 404Q75 400 72 389L86 354 108 313Z" fill="url(#coat)"/>
+    <path d="M117 302L137 344 145 386Q148 398 160 394L174 387 163 362 160 332 146 296Z" fill="url(#coat)"/>
+    <path d="M42 383L35 395Q38 405 52 406L69 405Q78 401 70 392L59 383Z" fill="url(#boots)" stroke="#151718" stroke-width="3"/>
+    <path d="M146 380L143 393Q151 401 165 395L179 388 169 378 156 385Z" fill="url(#boots)" stroke="#151718" stroke-width="3"/>
+    <path d="M69 115Q85 103 111 108L139 127 147 188 141 290Q108 311 63 292L57 194Z" fill="url(#coat)" stroke="#222d25" stroke-width="4"/>
+    <path d="M69 125L100 151 95 289 66 287 60 193Z" fill="url(#coatLight)" opacity=".75"/>
+    <path d="M109 143L135 131 141 195 134 275 113 274Z" fill="#18231f" opacity=".68"/>
+    <path d="M80 123L91 145 106 157 122 141 137 129 127 116 88 114Z" fill="url(#scarf)" stroke="#343d3a" stroke-width="3"/>
+    <path d="M93 144L109 161 117 199 104 218 97 184 84 162Z" fill="url(#scarf)"/>
+    <path d="M68 127Q53 139 49 181L39 218Q40 232 51 231L63 222 80 174 89 147Z" fill="url(#coat)" stroke="#202922" stroke-width="4"/>
+    <path d="M132 130Q147 141 154 175L165 213Q165 225 154 230L143 217 129 180 121 150Z" fill="url(#coatLight)" stroke="#202922" stroke-width="4"/>
+    <path d="M43 216Q39 229 47 236L58 236 66 221 61 211Z" fill="url(#skin)"/>
+    <path d="M151 216Q150 230 159 235L169 230 166 215Z" fill="url(#skin)"/>
+    <path d="M86 82Q82 55 101 44Q127 39 140 60L138 85 127 106 99 105Z" fill="url(#skin)" stroke="#684d3f" stroke-width="3"/>
+    <path d="M82 79Q72 45 99 31Q123 20 143 42L151 71 138 83 133 55Q118 37 97 55L93 88Z" fill="url(#hair)"/>
+    <path d="M126 63Q148 67 143 92L130 109 124 98 133 80Z" fill="url(#hair)"/>
+    <path d="M135 74L147 80 138 86Z" fill="url(#skin)"/>
+    <path d="M96 60Q108 55 118 59" fill="none" stroke="#252323" stroke-width="4"/>
+    <path d="M95 94Q111 103 129 92L126 109 103 115Z" fill="url(#scarf)"/>
+    <path d="M72 175L91 193M132 176L145 198" stroke="#a5a48c" stroke-opacity=".25" stroke-width="4"/>
+    <path d="M108 167L109 252" stroke="#c3b99a" stroke-opacity=".52" stroke-width="3"/>
+    <circle cx="109" cy="189" r="3" fill="#c8b58c"/><circle cx="109" cy="218" r="3" fill="#c8b58c"/><circle cx="108" cy="248" r="3" fill="#c8b58c"/>
+    <path d="M63 294Q105 310 141 290L140 302Q104 324 63 305Z" fill="#161f1b"/>
+  </g>
+  <g id="frame3" transform="translate(400 0)">
+    <ellipse cx="101" cy="408" rx="43" ry="7" fill="#05090a" opacity=".38"/>
+    <path d="M72 295L84 348 93 388Q95 399 106 397L124 395 117 381 112 345 110 305Z" fill="url(#coat)"/>
+    <path d="M114 301L92 345 70 382Q64 393 75 400L90 404Q101 399 99 389L131 354 150 311Z" fill="url(#coat)"/>
+    <path d="M92 383L91 396Q98 404 112 400L128 394 122 383 106 389Z" fill="url(#boots)" stroke="#151718" stroke-width="3"/>
+    <path d="M67 382L58 394Q58 404 73 406L92 405Q101 400 92 392L82 382Z" fill="url(#boots)" stroke="#151718" stroke-width="3"/>
+    <path d="M69 115Q85 103 111 108L139 127 147 188 141 290Q108 311 63 292L57 194Z" fill="url(#coat)" stroke="#222d25" stroke-width="4"/>
+    <path d="M69 125L100 151 95 289 66 287 60 193Z" fill="url(#coatLight)" opacity=".75"/>
+    <path d="M109 143L135 131 141 195 134 275 113 274Z" fill="#18231f" opacity=".68"/>
+    <path d="M80 123L91 145 106 157 122 141 137 129 127 116 88 114Z" fill="url(#scarf)" stroke="#343d3a" stroke-width="3"/>
+    <path d="M93 144L109 161 117 199 104 218 97 184 84 162Z" fill="url(#scarf)"/>
+    <path d="M68 127Q53 139 49 181L39 218Q40 232 51 231L63 222 80 174 89 147Z" fill="url(#coat)" stroke="#202922" stroke-width="4"/>
+    <path d="M132 130Q147 141 154 175L165 213Q165 225 154 230L143 217 129 180 121 150Z" fill="url(#coatLight)" stroke="#202922" stroke-width="4"/>
+    <path d="M43 216Q39 229 47 236L58 236 66 221 61 211Z" fill="url(#skin)"/>
+    <path d="M151 216Q150 230 159 235L169 230 166 215Z" fill="url(#skin)"/>
+    <path d="M86 82Q82 55 101 44Q127 39 140 60L138 85 127 106 99 105Z" fill="url(#skin)" stroke="#684d3f" stroke-width="3"/>
+    <path d="M82 79Q72 45 99 31Q123 20 143 42L151 71 138 83 133 55Q118 37 97 55L93 88Z" fill="url(#hair)"/>
+    <path d="M126 63Q148 67 143 92L130 109 124 98 133 80Z" fill="url(#hair)"/>
+    <path d="M135 74L147 80 138 86Z" fill="url(#skin)"/>
+    <path d="M96 60Q108 55 118 59" fill="none" stroke="#252323" stroke-width="4"/>
+    <path d="M95 94Q111 103 129 92L126 109 103 115Z" fill="url(#scarf)"/>
+    <path d="M72 175L91 193M132 176L145 198" stroke="#a5a48c" stroke-opacity=".25" stroke-width="4"/>
+    <path d="M108 167L109 252" stroke="#c3b99a" stroke-opacity=".52" stroke-width="3"/>
+    <circle cx="109" cy="189" r="3" fill="#c8b58c"/><circle cx="109" cy="218" r="3" fill="#c8b58c"/><circle cx="108" cy="248" r="3" fill="#c8b58c"/>
+    <path d="M63 294Q105 310 141 290L140 302Q104 324 63 305Z" fill="#161f1b"/>
+  </g>
+  <g id="frame4" transform="translate(600 0)">
+    <ellipse cx="101" cy="408" rx="43" ry="7" fill="#05090a" opacity=".38"/>
+    <path d="M75 294L87 346 95 382Q97 394 109 394L126 389 119 375 117 340 113 301Z" fill="url(#coat)"/>
+    <path d="M111 302L118 347 124 384Q126 396 140 394L157 390 149 373 147 337 145 296Z" fill="url(#coat)"/>
+    <path d="M92 377L91 393Q100 402 114 395L128 388 119 378 105 385Z" fill="url(#boots)" stroke="#151718" stroke-width="3"/>
+    <path d="M123 379L124 392Q135 401 150 394L164 389 157 378 142 385Z" fill="url(#boots)" stroke="#151718" stroke-width="3"/>
+    <path d="M69 115Q85 103 111 108L139 127 147 188 141 290Q108 311 63 292L57 194Z" fill="url(#coat)" stroke="#222d25" stroke-width="4"/>
+    <path d="M69 125L100 151 95 289 66 287 60 193Z" fill="url(#coatLight)" opacity=".75"/>
+    <path d="M109 143L135 131 141 195 134 275 113 274Z" fill="#18231f" opacity=".68"/>
+    <path d="M80 123L91 145 106 157 122 141 137 129 127 116 88 114Z" fill="url(#scarf)" stroke="#343d3a" stroke-width="3"/>
+    <path d="M93 144L109 161 117 199 104 218 97 184 84 162Z" fill="url(#scarf)"/>
+    <path d="M68 127Q53 139 49 181L39 218Q40 232 51 231L63 222 80 174 89 147Z" fill="url(#coat)" stroke="#202922" stroke-width="4"/>
+    <path d="M132 130Q147 141 154 175L165 213Q165 225 154 230L143 217 129 180 121 150Z" fill="url(#coatLight)" stroke="#202922" stroke-width="4"/>
+    <path d="M43 216Q39 229 47 236L58 236 66 221 61 211Z" fill="url(#skin)"/>
+    <path d="M151 216Q150 230 159 235L169 230 166 215Z" fill="url(#skin)"/>
+    <path d="M86 82Q82 55 101 44Q127 39 140 60L138 85 127 106 99 105Z" fill="url(#skin)" stroke="#684d3f" stroke-width="3"/>
+    <path d="M82 79Q72 45 99 31Q123 20 143 42L151 71 138 83 133 55Q118 37 97 55L93 88Z" fill="url(#hair)"/>
+    <path d="M126 63Q148 67 143 92L130 109 124 98 133 80Z" fill="url(#hair)"/>
+    <path d="M135 74L147 80 138 86Z" fill="url(#skin)"/>
+    <path d="M96 60Q108 55 118 59" fill="none" stroke="#252323" stroke-width="4"/>
+    <path d="M95 94Q111 103 129 92L126 109 103 115Z" fill="url(#scarf)"/>
+    <path d="M72 175L91 193M132 176L145 198" stroke="#a5a48c" stroke-opacity=".25" stroke-width="4"/>
+    <path d="M108 167L109 252" stroke="#c3b99a" stroke-opacity=".52" stroke-width="3"/>
+    <circle cx="109" cy="189" r="3" fill="#c8b58c"/><circle cx="109" cy="218" r="3" fill="#c8b58c"/><circle cx="108" cy="248" r="3" fill="#c8b58c"/>
+    <path d="M63 294Q105 310 141 290L140 302Q104 324 63 305Z" fill="#161f1b"/>
+  </g>
+</svg>
