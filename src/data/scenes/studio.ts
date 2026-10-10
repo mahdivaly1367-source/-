@@ -2,6 +2,8 @@ import type { Point } from "../../engine/navigation/perspective";
 
 export type FacingDirection = "left" | "right" | "front" | "back";
 export type HotspotKind = "examine" | "transition";
+export type SceneId = "scene_exterior" | "scene_studio" | "scene_archive" | "scene_pier" | "scene_lighthouse" | "scene_homestead";
+export type SceneAction = "station-door" | "power-junction" | "transmitter-panel" | "floor-hatch" | "bahman-confession" | "khosro-meeting" | "final-confrontation";
 
 export interface SceneHotspot {
   id: string;
@@ -14,6 +16,10 @@ export interface SceneHotspot {
   facing: FacingDirection;
   clueId?: string;
   collectibleItemIds?: string[];
+  targetSceneId?: SceneId;
+  requiredItemId?: string;
+  lockedMessage?: string;
+  action?: SceneAction;
 }
 
 export interface SceneDefinition {
@@ -63,6 +69,7 @@ export const STUDIO_SCENE: SceneDefinition = {
       description:
         "پشت این در، راهروی باریکی به مخزن نوارها می‌رسد. قفل قدیمی هنوز باز است، اما چراغ راهرو سوخته. در این برش آزمایشی، این نقطه برای سنجش تعامل و تغییر نما نگه داشته شده است.",
       kind: "transition",
+      targetSceneId: "scene_archive",
       polygon: [[3, 25], [15, 25], [15, 61], [3, 61]],
       walkTarget: [20, 76],
       facing: "left",
@@ -75,6 +82,7 @@ export const STUDIO_SCENE: SceneDefinition = {
         "برگه‌های زردشدهٔ شیفت شب روی تخته با سنجاق‌های زنگ‌زده مانده‌اند. کنار ساعت ۲۲:۱۰، خطی با جوهر آبی دیده می‌شود که با نوشته‌های مشکی اطراف فرق دارد. این تفاوت ارزش ثبت دارد، اما به‌تنهایی جعل یا هویت نویسنده را ثابت نمی‌کند.",
       kind: "examine",
       clueId: "shift-log-2210",
+      collectibleItemIds: ["shift-log-page"],
       polygon: [[24, 23], [44, 23], [44, 43], [24, 43]],
       walkTarget: [39, 69],
       facing: "left",
@@ -122,9 +130,32 @@ export const STUDIO_SCENE: SceneDefinition = {
         "لبهٔ فرش کمی بالا آمده و رطوبت، چوب زیر آن را تیره کرده است. گوشهٔ نوارچسب قدیمی هم نامنظم است. فعلاً دریچه‌ای آشکار نشده؛ مشاهده را ثبت کن اما از آن نتیجهٔ قطعی نگیر.",
       kind: "examine",
       clueId: "floor-hatch-seam",
+      action: "floor-hatch",
       polygon: [[43, 68], [65, 68], [65, 82], [43, 82]],
       walkTarget: [54, 88],
       facing: "front",
+    },
+    {
+      id: "transmitter-panel",
+      label: "تابلوی قطع فرستنده",
+      title: "تابلوی برق فرستنده",
+      description: "پیچ‌های قاب زنگ زده‌اند و پشت قاب، پایهٔ برنجی فیوز اصلی دیده می‌شود. اثر کشیدن ابزار روی فلز وجود دارد؛ برای باز کردن قاب باید از آچار مناسب استفاده شود.",
+      kind: "examine",
+      action: "transmitter-panel",
+      polygon: [[72, 39], [83, 39], [83, 56], [72, 56]],
+      walkTarget: [70, 74],
+      facing: "right",
+    },
+    {
+      id: "exterior-door",
+      label: "درب بازگشت به محوطه",
+      title: "درب ورودی ایستگاه",
+      description: "از این در می‌توانی به محوطهٔ بیرونی برگردی؛ راه بازگشت همیشه در دسترس است.",
+      kind: "transition",
+      targetSceneId: "scene_exterior",
+      polygon: [[2, 63], [15, 63], [15, 76], [2, 76]],
+      walkTarget: [20, 78],
+      facing: "left",
     },
   ],
 };
