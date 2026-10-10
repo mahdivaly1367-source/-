@@ -29,7 +29,7 @@ async function solveBahmanPuzzle(page: Page) {
   await board.getByRole("button", { name: "برداشتن برگهٔ ثبت کشیک اصلاح‌شده" }).click();
   await board.getByRole("button", { name: "ادامهٔ کاوش" }).click();
   await page.getByRole("button", { name: "بررسی برگهٔ ثبت کشیک اصلاح‌شده" }).click();
-  await expect(page.getByRole("dialog").getByText(/تفاوت جوهر/)).toBeVisible();
+  await expect(page.getByRole("dialog").getByText(/تغییر جوهر/)).toBeVisible();
   await page.getByRole("dialog").getByRole("button", { name: "بازگشت" }).click();
 
   await revealPanelEvidence(page);
