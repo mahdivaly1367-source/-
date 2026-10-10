@@ -1,6 +1,6 @@
 export interface MotorSignalMetrics { peakFrequencyHz:number; peakDb:number; rms:number }
 export interface MotorFilterOptions { lowPassHz:number; notchHz:number; durationMs?:number; onMetrics?:(metrics:MotorSignalMetrics)=>void }
-function measureSignal(context:AudioContext, analyser:AnalyserNode, f:Float32Array, t:Uint8Array):MotorSignalMetrics {
+function measureSignal(context:AudioContext, analyser:AnalyserNode, f:Float32Array<ArrayBuffer>, t:Uint8Array<ArrayBuffer>):MotorSignalMetrics {
  analyser.getFloatFrequencyData(f); analyser.getByteTimeDomainData(t);
  const lo=Math.max(1,Math.floor(25*analyser.fftSize/context.sampleRate));
  const hi=Math.min(f.length-1,Math.ceil(160*analyser.fftSize/context.sampleRate));
