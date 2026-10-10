@@ -23,8 +23,12 @@ jobs:
           node-version: "22.16.0"
       - name: Install dependencies
         run: npm install --no-audit --no-fund
+      - name: Install Chromium for browser tests
+        run: npx playwright install --with-deps chromium
       - name: Test navigation geometry
         run: npm run test:navigation
+      - name: Test browser interactions
+        run: npm run test:e2e
       - name: Type-check project
         run: npm run lint
       - name: Build production bundle
