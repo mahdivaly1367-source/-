@@ -1,7 +1,38 @@
+import { mkdir } from "node:fs/promises";
 import { expect, test } from "@playwright/test";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/");
+});
+
+test("capture the rendered studio and verify the character sprite foot origin", async ({ page }) => {
+  const background = page.locator(".sf-background");
+  await expect(background).toBeVisible();
+  await expect.poll(() =>
+    background.evaluate((image) => (image as HTMLImageElement).naturalWidth),
+  ).toBeGreaterThan(0);
+
+  const sprite = page.locator(".sf-ava-art");
+  const origin = await sprite.evaluate((element) => {
+    const rect = element.getBoundingClientRect();
+    const style = getComputedStyle(element);
+    const parts = style.transformOrigin.split(" ").map(Number);
+    return {
+      width: rect.width,
+      height: rect.height,
+      originX: parts[0],
+      originY: parts[1],
+    };
+  });
+
+  expect(origin.width).toBeGreaterThan(0);
+  expect(origin.height).toBeGreaterThan(0);
+  expect(Math.abs(origin.originX - origin.width / 2)).toBeLessThanOrEqual(1);
+  expect(Math.abs(origin.originY - origin.height)).toBeLessThanOrEqual(1);
+
+  await mkdir("artifacts", { recursive: true });
+  await page.screenshot({ path: "artifacts/phase1-studio-full.png", fullPage: true });
+  await page.locator(".sf-viewport").screenshot({ path: "artifacts/phase1-studio-viewport.png" });
 });
 
 test("click movement remains within the walkable polygon and projects outside clicks", async ({ page }) => {
