@@ -27,6 +27,7 @@ export interface SceneDefinition {
   title: string;
   subtitle: string;
   background: string;
+  foregroundImage?: string;
   walkablePolygon: readonly Point[];
   spawnPoint: Point;
   perspective: {
@@ -43,6 +44,7 @@ export const STUDIO_SCENE: SceneDefinition = {
   title: "اتاق پخش و استودیو",
   subtitle: "ایستگاه رادیویی ساحلی مه‌آب",
   background: "/assets/studio-background.svg",
+  foregroundImage: "/assets/studio-foreground.svg",
   // Keep the walking polygon on the visible floor in front of the console.
   // The old y=64 edge placed Ava's feet on the console's front panel.
   walkablePolygon: [

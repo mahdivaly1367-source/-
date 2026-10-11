@@ -2,7 +2,7 @@ import type { SceneDefinition } from "./studio";
 
 export const EXTERIOR_SCENE: SceneDefinition = {
  id:"scene_exterior", title:"محوطهٔ بیرونی ایستگاه", subtitle:"بندر مه‌آب · ۷۲ ساعت تا تخریب",
- background:"/assets/exterior-background.svg",
+ background:"/assets/exterior-background.svg", foregroundImage:"/assets/exterior-foreground.svg",
  walkablePolygon:[[5,94],[12,78],[24,72],[77,72],[91,82],[97,94]],
  spawnPoint:[28,88], perspective:{minY:72,maxY:94,minScale:.76,maxScale:1.08},
  hotspots:[
@@ -16,7 +16,7 @@ export const EXTERIOR_SCENE: SceneDefinition = {
 
 export const ARCHIVE_SCENE: SceneDefinition = {
  id:"scene_archive", title:"مخزن آرشیو نوارها", subtitle:"آرشیو رسمی · آبان ۱۳۷۸",
- background:"/assets/archive-background.svg", walkablePolygon:[[8,93],[17,78],[26,74],[76,74],[88,82],[95,93]], spawnPoint:[34,87],
+ background:"/assets/archive-background.svg", foregroundImage:"/assets/archive-foreground.svg", walkablePolygon:[[8,93],[17,78],[26,74],[76,74],[88,82],[95,93]], spawnPoint:[34,87],
  perspective:{minY:74,maxY:93,minScale:.76,maxScale:1.08},
  hotspots:[
   {id:"tape-shelf",label:"قفسهٔ نوارهای آبان",title:"قفسهٔ نوارهای آبان ۱۳۷۸",description:"جعبه‌های شمارهٔ ۱ تا ۱۲ ردیف شده‌اند، اما جای شمارهٔ ۱۳ خالی است و خاک اطراف آن کمتر است. این جای خالی را ثبت کن.",kind:"examine",clueId:"archive-tape-gap",polygon:[[14,19],[42,19],[42,62],[14,62]],walkTarget:[33,73],facing:"left"},
@@ -29,7 +29,7 @@ export const ARCHIVE_SCENE: SceneDefinition = {
 
 export const PIER_SCENE: SceneDefinition = {
  id:"scene_pier",title:"اسکله و کارگاه رادیو",subtitle:"اسکلهٔ صیادی · محل کار بهمن شریفی",
- background:"/assets/pier-background.svg",walkablePolygon:[[3,93],[10,78],[28,73],[72,73],[90,80],[98,93]],spawnPoint:[22,87],
+ background:"/assets/pier-background.svg", foregroundImage:"/assets/pier-foreground.svg",walkablePolygon:[[3,93],[10,78],[28,73],[72,73],[90,80],[98,93]],spawnPoint:[22,87],
  perspective:{minY:73,maxY:93,minScale:.76,maxScale:1.08},
  hotspots:[
   {id:"bahman-workbench",label:"میز کار بهمن",title:"کارگاه تعمیر رادیو بهمن",description:"انبردستی فرسوده روی میز است. آن را بررسی کن و سپس با مدارک مربوط به فیوز و برگهٔ کشیک دربارهٔ شب توفان از بهمن سؤال کن. پاسخ اشتباه گفت‌وگو را برای همیشه قفل نمی‌کند.",kind:"examine",action:"bahman-confession",collectibleItemIds:["bahman-pliers"],polygon:[[39,32],[65,32],[65,57],[39,57]],walkTarget:[46,73],facing:"left"},
@@ -42,7 +42,7 @@ export const PIER_SCENE: SceneDefinition = {
 
 export const LIGHTHOUSE_SCENE: SceneDefinition = {
  id:"scene_lighthouse",title:"فانوس دریایی صخرهٔ سیاه",subtitle:"برج ساحلی · دیدار با خسرو پیرنیا",
- background:"/assets/lighthouse-background.svg",walkablePolygon:[[15,93],[23,80],[31,75],[68,75],[80,82],[87,93]],spawnPoint:[26,88],
+ background:"/assets/lighthouse-background.svg", foregroundImage:"/assets/lighthouse-foreground.svg",walkablePolygon:[[15,93],[23,80],[31,75],[68,75],[80,82],[87,93]],spawnPoint:[26,88],
  perspective:{minY:75,maxY:93,minScale:.76,maxScale:1.07},
  hotspots:[
   {id:"khosro-table",label:"میز گرد خسرو",title:"میز و نقشهٔ خسرو",description:"خسرو نقشهٔ دریایی و قطب‌نما را کنار پیپ گذاشته است. پس از گفت‌وگو، او سرنوشت سهراب را شرح می‌دهد و دیاپازون نقره‌ای را به آوا می‌سپارد.",kind:"examine",action:"khosro-meeting",clueId:"khosro-fate",polygon:[[43,39],[67,39],[67,59],[43,59]],walkTarget:[48,74],facing:"right"},
@@ -53,7 +53,7 @@ export const LIGHTHOUSE_SCENE: SceneDefinition = {
 
 export const HOMESTEAD_SCENE: SceneDefinition = {
  id:"scene_homestead",title:"خانهٔ قدیمی خانوادهٔ راد",subtitle:"خانهٔ چوبی نم‌کشیده · یادگارهای سهراب",
- background:"/assets/homestead-background.svg",walkablePolygon:[[7,93],[16,80],[28,75],[72,75],[86,82],[94,93]],spawnPoint:[27,88],
+ background:"/assets/homestead-background.svg", foregroundImage:"/assets/homestead-foreground.svg",walkablePolygon:[[7,93],[16,80],[28,75],[72,75],[86,82],[94,93]],spawnPoint:[27,88],
  perspective:{minY:75,maxY:93,minScale:.76,maxScale:1.07},
  hotspots:[
   {id:"framed-photo",label:"قاب عکس افتتاحیه",title:"عکس افتتاحیهٔ رادیو مه‌آب",description:"سهراب جلوی تابلوی فرکانس افتتاحیه ایستاده است. عدد ۱۳۵۹ کیلوهرتز روی تابلو دیده می‌شود؛ یادداشت فنی رادیو را هم پیدا کن تا بدانی پدر از این عدد برای قفل‌ها استفاده می‌کرد.",kind:"examine",clueId:"opening-photo-1359",collectibleItemIds:["vintage-photo"],polygon:[[28,22],[46,22],[46,42],[28,42]],walkTarget:[37,74],facing:"left"},

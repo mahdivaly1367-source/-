@@ -413,6 +413,16 @@ export default function GameApp() {
             perspective={currentScene.perspective}
           />
 
+          {currentScene.foregroundImage && (
+            <img
+              className="sf-foreground"
+              src={currentScene.foregroundImage}
+              alt=""
+              aria-hidden="true"
+              draggable={false}
+            />
+          )}
+
           <HotspotOverlay
             hotspots={currentScene.hotspots}
             hoveredId={hoveredHotspotId}
