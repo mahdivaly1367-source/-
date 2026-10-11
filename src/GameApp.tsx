@@ -492,7 +492,7 @@ export default function GameApp() {
           </button>
           <button
             type="button"
-            className={debugMode ? "sf-debug-toggle sf-debug-toggle--active" : "sf-debug-toggle"
+            className={debugMode ? "sf-debug-toggle sf-debug-toggle--active" : "sf-debug-toggle"}
             onClick={() => setDebugMode((value) => !value)}
             aria-pressed={debugMode}
           >
