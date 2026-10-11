@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { enterStudio } from "./helpers";
 
 test("phase 5: atmosphere follows the active scene and sound is opt-in", async ({ page }) => {
   await page.goto("/");
@@ -8,6 +9,11 @@ test("phase 5: atmosphere follows the active scene and sound is opt-in", async (
   await expect(atmosphere).toHaveClass(/sf-atmosphere--scene_exterior/);
   await expect(toggle).toHaveAttribute("aria-pressed", "false");
   await expect(toggle).toHaveAccessibleName("فعال کردن صدای محیط");
+
+  await enterStudio(page);
+  await expect(atmosphere).toHaveClass(/sf-atmosphere--scene_studio/);
+  await expect(page.locator(".sf-rain-glass")).toHaveCSS("display", "block");
+  await expect(page.locator(".sf-window-haze")).toHaveCSS("display", "block");
 
   await toggle.click();
   await expect(toggle).toHaveAttribute("aria-pressed", "true");

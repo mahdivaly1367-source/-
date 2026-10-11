@@ -852,3 +852,20 @@
   .sf-atmosphere::before,
   .sf-atmosphere::after { animation: none !important; }
 }
+
+
+/* Keep the rain-on-glass treatment confined to the studio window. */
+.sf-window-haze,
+.sf-rain-glass { display: none; }
+.sf-viewport[data-scene="scene_studio"] .sf-window-haze,
+.sf-viewport[data-scene="scene_studio"] .sf-rain-glass { display: block; }
+
+/* Accessibility: respect the system motion preference for every atmosphere loop. */
+@media (prefers-reduced-motion: reduce) {
+  .sf-window-haze,
+  .sf-rain-glass,
+  .sf-atmosphere::before,
+  .sf-atmosphere::after {
+    animation: none !important;
+  }
+}

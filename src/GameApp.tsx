@@ -375,6 +375,7 @@ export default function GameApp() {
       <section className="sf-stage" aria-label="محیط قابل‌بازی">
         <section
           className="sf-viewport"
+          data-scene={currentSceneId}
           ref={viewportRef}
           onClick={handleViewportClick}
           aria-label={currentScene.title + "؛ برای حرکت روی سطح زمین کلیک کن."}
