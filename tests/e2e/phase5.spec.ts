@@ -12,6 +12,9 @@ test("phase 5: atmosphere follows the active scene and sound is opt-in", async (
 
   await enterStudio(page);
   await expect(atmosphere).toHaveClass(/sf-atmosphere--scene_studio/);
+  await expect(page.locator(".sf-foreground")).toHaveAttribute("src", "/assets/studio-foreground.svg");
+  await expect(page.locator(".sf-foreground")).toHaveJSProperty("complete", true);
+  await expect(page.locator(".sf-foreground")).toHaveJSProperty("naturalWidth", 1600);
   await expect(page.locator(".sf-rain-glass")).toHaveCSS("display", "block");
   await expect(page.locator(".sf-window-haze")).toHaveCSS("display", "block");
 
